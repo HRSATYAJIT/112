@@ -52,7 +52,7 @@ $("f").addEventListener("submit", async (e) => {
     const d = await r.json();
     if (!r.ok) throw new Error(d.error || "Could not issue a code.");
     const until = new Date(d.validUntil + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
-    const msg = `Hi, thank you for choosing CTCfix (${d.plan} plan) for ${$("cust").value}.\n\nYour access code: ${d.code}\nValid until: ${until}\n\nOpen https://ctcfix.in/#letter, paste the code in "Access code" and tap Unlock.\n\nFor help, reply here.`;
+    const msg = `Hi, thank you for choosing CTCfix (${d.plan} plan) for ${$("cust").value}.\n\nYour access code: ${d.code}\nValid until: ${until}\n\nOpen ${location.origin}/#letter, paste the code in "Access code" and tap Unlock.\n\nFor help, reply here.`;
     $("code").textContent = d.code; $("msg").textContent = msg; $("out").hidden = false;
     const digits = $("phone").value.replace(/\D/g, "").slice(-10);
     $("wa").href = `https://wa.me/${digits.length === 10 ? "91" + digits : ""}?text=${encodeURIComponent(msg)}`;
