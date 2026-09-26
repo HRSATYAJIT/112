@@ -1,6 +1,7 @@
 // Letter API tests: validation, template fallback, Claude path with a mocked API, and the no-numbers guard.
 import handler, { validate, templateDraft, draftWithClaude, checkDraft } from "../api/letter.js";
 import assert from "node:assert/strict";
+import { issueCode } from "../api/_lib/codes.js";
 
 const good = {
   company: { name: "Kaveri Foods Pvt Ltd", address: "12 Mysore Road, Bengaluru 560098", signatoryName: "Anita Rao", signatoryTitle: "Director" },
@@ -35,9 +36,11 @@ assert.equal((await draftWithClaude(good, "test-key", mockFetch)).subject, "Offe
 
 // Handler: no key -> template
 delete process.env.ANTHROPIC_API_KEY;
+process.env.CODE_SECRET = "letter-test-secret";
+const accessCode = issueCode(process.env.CODE_SECRET, "S", 1).code;
 const call = (method, body) => new Promise((resolve) => {
   const res = { headers: {}, setHeader(k, v) { this.headers[k] = v; }, status(c) { this.code = c; return this; }, json(o) { resolve({ code: this.code, body: o }); } };
-  handler({ method, body }, res);
+  handler({ method, body, headers: { "x-access-code": accessCode } }, res);
 });
 let r = await call("POST", good);
 assert.equal(r.code, 200); assert.equal(r.body.source, "template");

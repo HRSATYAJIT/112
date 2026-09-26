@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CTCfix Pricing</title>
+<meta name="description" content="CTCfix plans: free salary calculator, ₹399/month SME plan and ₹2,299/month CA plan for Labour Code compliant offer letters.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<div class="wrap">
+<header class="nav"><a class="logo" href="index.html"><span class="mark">CF</span><b>CTCfix</b></a><nav class="links"><a href="index.html">Calculator</a><a href="index.html#letter">Offer letters</a><a href="pricing.html" aria-current="page" class="cta">Pricing</a><a href="contact.html">Contact</a></nav></header>
+<style>
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+@media (max-width:900px){.plans{grid-template-columns:1fr}}
+.plan{padding:22px;display:flex;flex-direction:column;gap:16px}
+.plan.featured{border:2px solid var(--accent)}
+.price{display:flex;align-items:baseline;gap:4px;margin:8px 0 4px}
+.price b{font:600 34px/1 var(--mono);letter-spacing:-.02em}
+.price span{color:var(--muted)}
+.who{margin:0;color:var(--muted);font-size:14px}
+.feats{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.pay{display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line);padding-top:16px}
+.pay img{background:#fff;border-radius:10px;padding:8px;border:1px solid var(--line);align-self:flex-start;max-width:100%;height:auto}
+.steps ol{margin:0;padding-left:18px;font-size:13.5px;display:flex;flex-direction:column;gap:6px}
+code{font:500 12.5px var(--mono);background:var(--surface-2);padding:2px 5px;border-radius:5px;white-space:nowrap}
+.free .btn{align-self:flex-start}
+.faq{max-width:70ch}
+.faq h3{font:600 15.5px/1.35 var(--sans);margin:20px 0 4px}
+.faq p{margin:0;color:var(--muted)}
+.note{font-size:13px;color:var(--muted);margin-top:14px}
+</style>
+<h1>Simple monthly plans. Cancel anytime.</h1>
+<p class="lede">The salary calculator is free for everyone. A plan unlocks offer and appointment letters drafted by Claude, with PDF download and a compliant Annexure A.</p>
+<div class="plans">
+<article class="card plan free">
+  <div class="phead"><span class="label">Free</span><div class="price"><b>₹0</b></div><p class="who">For checking any salary structure</p></div>
+  <ul class="feats"><li>Labour Code salary structure for Karnataka, Maharashtra, Telangana, Haryana and Tamil Nadu</li><li>PF, ESI, gratuity, professional tax and LWF</li><li>Compliance checks and old-vs-new comparison</li><li>Offer letter preview (watermarked)</li></ul>
+  <a class="btn ghost" href="index.html">Open the calculator</a>
+</article>
+<article class="card plan featured" id="sme">
+  <div class="phead"><span class="label">SME</span><div class="price"><b>₹399</b><span>/month</span></div><p class="who">For one company's own hiring</p></div>
+  <ul class="feats"><li>Everything in Free</li><li>Unlimited offer and appointment letters for your company</li><li>Letters drafted by Claude, salary figures from the calculator</li><li>PDF download and copy</li><li>WhatsApp support</li></ul>
+  <div class="pay">
+    <img src="upi-sme.svg" alt="UPI QR code to pay ₹399 to Satyajit Tripathy" width="168" height="168">
+    <div class="steps">
+      <ol>
+        <li>Scan with any UPI app, or <a href="upi://pay?pa=7761830260@pthdfc&pn=SATYAJIT%20TRIPATHY&am=399.00&cu=INR&tn=CTCfix%20SME%20plan">tap to pay on your phone</a>. UPI ID <code>7761830260@pthdfc</code>.</li>
+        <li><a href="https://wa.me/917338107498?text=Hi%2C%20I%20paid%20%E2%82%B9399%20for%20the%20CTCfix%20SME%20plan.%20Screenshot%20attached.%20Company%20name%3A%20" target="_blank" rel="noopener">Send the payment screenshot on WhatsApp</a>.</li>
+        <li>Get your access code within 2 hours (9 AM–9 PM IST) and enter it on the Offer letters tab.</li>
+      </ol>
+    </div>
+  </div>
+</article>
+<article class="card plan" id="ca">
+  <div class="phead"><span class="label">CA and consultants</span><div class="price"><b>₹2,299</b><span>/month</span></div><p class="who">For CAs and HR consultants serving many clients</p></div>
+  <ul class="feats"><li>Everything in SME</li><li>Use for any number of client companies</li><li>Priority WhatsApp support, same business day</li></ul>
+  <div class="pay">
+    <img src="upi-ca.svg" alt="UPI QR code to pay ₹2,299 to Satyajit Tripathy" width="168" height="168">
+    <div class="steps">
+      <ol>
+        <li>Scan with any UPI app, or <a href="upi://pay?pa=7761830260@pthdfc&pn=SATYAJIT%20TRIPATHY&am=2299.00&cu=INR&tn=CTCfix%20CA%20plan">tap to pay on your phone</a>. UPI ID <code>7761830260@pthdfc</code>.</li>
+        <li><a href="https://wa.me/917338107498?text=Hi%2C%20I%20paid%20%E2%82%B92299%20for%20the%20CTCfix%20CA%20plan.%20Screenshot%20attached.%20Company%20name%3A%20" target="_blank" rel="noopener">Send the payment screenshot on WhatsApp</a>.</li>
+        <li>Get your access code within 2 hours (9 AM–9 PM IST) and enter it on the Offer letters tab.</li>
+      </ol>
+    </div>
+  </div>
+</article>
+</div>
+<p class="note">Prices are in Indian rupees and are final. Each payment covers access until the end of the following calendar month. Access is personal to the paying business.</p>
+
+<section class="faq">
+<h2>Questions</h2>
+<h3>Why do I pay by UPI and get a code?</h3><p>Card payments and auto-renewal are coming soon. Until then, UPI is the fastest way to start today. Your code works immediately on the Offer letters tab.</p>
+<h3>Are the calculations checked?</h3><p>Rates for PF, ESI, gratuity, professional tax and labour welfare fund are verified as of 26 September 2026. Minimum wage and income tax are not calculated yet. Review figures with your payroll adviser before issuing letters.</p>
+<h3>Can I get a refund?</h3><p>Yes, within 7 days of your first payment. See the <a href="refund.html">refund policy</a>.</p>
+<h3>Do you need an invoice?</h3><p>Email <a href="mailto:satyaxlri14@gmail.com">satyaxlri14@gmail.com</a> with your business name and we'll send a payment receipt.</p>
+</section>
+<footer class="site"><span>© 2026 CTCfix · Operated by Satyajit Tripathy, sole proprietor, Bengaluru</span>
+<nav><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellation</a><a href="contact.html">Contact</a></nav></footer>
+</div>
+</body>
+</html>

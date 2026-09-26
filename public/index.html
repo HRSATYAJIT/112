@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Build Labour Code compliant salary structures and offer letters for Karnataka, Maharashtra, Telangana, Haryana and Tamil Nadu.">
 <!--HEAD-START-->
-<title>Labour Code Pay Kit</title>
+<title>CTCfix · Labour Code salary structures and offer letters</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -178,6 +178,25 @@ fieldset.group-f legend{margin-bottom:10px;padding:0}
   #view-letter .grid{display:block}
   .paper{border:0;box-shadow:none;padding:0;min-height:0}
 }
+.toplinks{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;font-size:14px}
+.toplinks a{color:var(--muted);text-decoration:none}
+.toplinks a:hover{color:var(--ink)}
+.toplinks a.plink{color:var(--accent);font-weight:600}
+.unlock{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.unlock-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.unlock-row input{flex:1 1 220px;min-width:0;font:500 14px/1 var(--mono);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:11px;text-transform:uppercase}
+.unlock-row input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.unlock .hint a{color:var(--accent)}
+.unlocked{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:14px}
+.linkbtn{border:0;background:none;color:var(--accent);font:500 13.5px var(--sans);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px}
+.pill{font:600 10.5px/1 var(--sans);text-transform:uppercase;letter-spacing:.07em;padding:4px 7px;border-radius:5px}
+.btns button:disabled{opacity:.5;cursor:not-allowed}
+.paper{position:relative;overflow:hidden}
+.paper.locked::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200'%3E%3Ctext x='20' y='120' transform='rotate(-24 160 100)' font-family='Arial' font-size='26' font-weight='700' fill='%230F6E5C' fill-opacity='0.10'%3EPREVIEW %C2%B7 ctcfix.in%3C/text%3E%3C/svg%3E")}
+footer.site{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;font-size:13px;color:var(--muted)}
+footer.site nav{display:flex;flex-wrap:wrap;gap:6px 16px}
+footer.site a{color:var(--muted)}
+@media print{.unlock,footer.site{display:none!important}.paper.locked::after{display:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -187,13 +206,17 @@ fieldset.group-f legend{margin-bottom:10px;padding:0}
 <div class="wrap">
   <header class="top">
     <div class="brand">
-      <div class="mark" aria-hidden="true">LC</div>
+      <div class="mark" aria-hidden="true">CF</div>
       <div>
-        <h1>Labour Code Pay Kit</h1>
+        <h1>CTCfix</h1>
         <p class="sub">Build a salary structure that meets the new Labour Codes, with state PT and LWF.</p>
       </div>
     </div>
-    <div class="asof" id="asof">Rates as of 26 Sep 2026</div>
+    <div class="toplinks">
+      <a href="pricing.html" class="plink">Pricing</a>
+      <a href="contact.html">Contact</a>
+      <div class="asof" id="asof">Rates as of 26 Sep 2026</div>
+    </div>
   </header>
 
   <nav class="tabs" role="tablist" aria-label="Tools">
@@ -303,6 +326,18 @@ fieldset.group-f legend{margin-bottom:10px;padding:0}
     </form>
 
     <main class="results">
+      <div class="unlock" id="unlock">
+        <form id="unlock-form" class="unlock-row" autocomplete="off">
+          <label class="label" for="code-in">Access code</label>
+          <input id="code-in" placeholder="CTCFIX-S2610-XXXX-XXXXXXXX" spellcheck="false" autocapitalize="characters">
+          <button type="submit" class="primary sm" id="unlock-btn">Unlock</button>
+        </form>
+        <p class="hint" id="unlock-msg">Letters are in preview. <a href="pricing.html">Get a code for ₹399/month</a> to draft with Claude and download PDFs.</p>
+        <div class="unlocked" id="unlocked" hidden>
+          <span class="pill ok">Unlocked</span><span id="plan-line"></span>
+          <button type="button" class="linkbtn" id="change-code">Change code</button>
+        </div>
+      </div>
       <div class="lettertools">
         <span class="hint" id="lsource">Preview updates when you draft the letter.</span>
         <div class="btns">
@@ -314,6 +349,10 @@ fieldset.group-f legend{margin-bottom:10px;padding:0}
     </main>
   </div>
   </section>
+  <footer class="site">
+    <span>© 2026 CTCfix · Operated by Satyajit Tripathy, sole proprietor, Bengaluru</span>
+    <nav><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellation</a><a href="contact.html">Contact</a></nav>
+  </footer>
 </div>
 
 <script src="engine.js"></script>
@@ -448,7 +487,7 @@ fieldset.group-f legend{margin-bottom:10px;padding:0}
 
       <div class="cta"><p><b>Next:</b> turn this structure into an offer letter with Annexure A.</p><button type="button" class="primary sm" id="to-letter">Create offer letter</button></div>
 
-      <p class="sources">Built on the Code on Wages s.2(y) and the Code on Social Security, in force from 21 Nov 2025. PF ceiling ₹15,000; ESI ceiling ₹21,000 at 0.75% / 3.25%. PT and LWF use each state's current slabs; Haryana LWF follows the 1 Jan 2026 revision (0.2%, capped at ₹35 employee / ₹70 employer). Minimum wage and income tax are not calculated yet. Check figures with your payroll adviser before issuing letters.</p>
+      <p class="sources" id="sources-p">Built on the Code on Wages s.2(y) and the Code on Social Security, in force from 21 Nov 2025. PF ceiling ₹15,000; ESI ceiling ₹21,000 at 0.75% / 3.25%. PT and LWF use each state's current slabs; Haryana LWF follows the 1 Jan 2026 revision (0.2%, capped at ₹35 employee / ₹70 employer). Minimum wage and income tax are not calculated yet. Check figures with your payroll adviser before issuing letters.</p>
     `;
   }
 
@@ -467,6 +506,7 @@ fieldset.group-f legend{margin-bottom:10px;padding:0}
 
   // ---------- Offer letter ----------
   const L = { letterType: "offer", employmentType: "permanent", draft: null, source: "", note: "" };
+  const A = { code: "", valid: false, plan: "", validUntil: "" };
   const esc = (x) => String(x ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const v = (id) => $(id).value.trim();
   const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
@@ -567,6 +607,10 @@ fieldset.group-f legend{margin-bottom:10px;padding:0}
         ${offer ? `<div>Accepted by<div class="line">${esc(p.employee.name)}<br>Signature and date</div></div>` : ""}
       </div>
       ${annexure(p, r)}`;
+    $("paper").classList.toggle("locked", !A.valid);
+    $("copy-btn").disabled = !A.valid; $("pdf-btn").disabled = !A.valid;
+    $("copy-btn").title = $("pdf-btn").title = A.valid ? "" : "Unlock with an access code first";
+    if (!A.valid) { $("lsource").textContent = "Preview only. Unlock with an access code to draft with Claude, copy and download."; return; }
     $("lsource").textContent = L.draft
       ? (L.source === "claude" ? "Drafted by Claude. Salary figures come from the calculator, not the AI." : (L.note || "Standard template."))
       : "Live preview from the standard template. Draft the letter for Claude's version.";
@@ -581,13 +625,15 @@ fieldset.group-f legend{margin-bottom:10px;padding:0}
     const err = $("lerr");
     if (missing.length) { err.textContent = "Fill in: " + missing.join(", ") + "."; err.hidden = false; return; }
     err.hidden = true;
+    if (!A.valid) { err.innerHTML = 'Enter your access code above to draft letters. <a href="pricing.html">Get one for ₹399/month</a>.'; err.hidden = false; $("code-in").focus(); return; }
     try { localStorage.setItem("paykit.company", JSON.stringify(Object.fromEntries(companyKeys.map((k) => [k, $(k).value])))); } catch (e2) {}
     const btn = $("draft-btn"), label = btn.textContent;
     btn.disabled = true; btn.textContent = "Drafting…";
     try {
-      const res = await fetch("/api/letter", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+      const res = await fetch("/api/letter", { method: "POST", headers: { "content-type": "application/json", "x-access-code": A.code }, body: JSON.stringify(payload) });
       const data = await res.json().catch(() => null);
       if (!data) throw new Error("offline");
+      if (res.status === 402) { setAccess({ valid: false }, data.error); err.textContent = data.error; err.hidden = false; return; }
       if (!res.ok) { err.textContent = (data.details || [data.error]).join("; "); err.hidden = false; return; }
       L.draft = data.draft; L.source = data.source; L.note = data.note || "";
     } catch (e3) {
@@ -599,8 +645,44 @@ fieldset.group-f legend{margin-bottom:10px;padding:0}
     renderPaper();
   });
 
-  $("pdf-btn").addEventListener("click", () => { renderPaper(); window.print(); });
+  // ---------- Access codes ----------
+  function setAccess(info, message){
+    A.valid = !!info.valid; A.plan = info.plan || ""; A.validUntil = info.validUntil || "";
+    if (!A.valid) { A.code = ""; try { localStorage.removeItem("ctcfix.code"); } catch (e) {} }
+    $("unlock-form").hidden = A.valid; $("unlocked").hidden = !A.valid;
+    const until = A.validUntil ? new Date(A.validUntil + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "";
+    $("plan-line").textContent = A.valid ? `${A.plan} plan · valid until ${until}` : "";
+    const msg = $("unlock-msg");
+    if (A.valid) msg.hidden = true;
+    else { msg.hidden = false; msg.innerHTML = message ? `${esc(message)} <a href="pricing.html">See plans</a>` : 'Letters are in preview. <a href="pricing.html">Get a code for ₹399/month</a> to draft with Claude and download PDFs.'; }
+    renderPaper();
+  }
+  async function checkCode(code){
+    const res = await fetch("/api/verify", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ code }) });
+    const data = await res.json();
+    if (data.valid) { A.code = code; try { localStorage.setItem("ctcfix.code", code); } catch (e) {} }
+    setAccess(data, data.valid ? "" : data.reason);
+    return data.valid;
+  }
+  $("unlock-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const code = $("code-in").value.trim().toUpperCase();
+    if (!code) { $("code-in").focus(); return; }
+    const b = $("unlock-btn"); b.disabled = true; b.textContent = "Checking…";
+    try { await checkCode(code); }
+    catch (e2) { setAccess({ valid: false }, "Couldn't reach CTCfix to check the code. Check your connection and try again."); }
+    finally { b.disabled = false; b.textContent = "Unlock"; }
+  });
+  $("change-code").addEventListener("click", () => { setAccess({ valid: false }); $("code-in").value = ""; $("code-in").focus(); });
+  (async () => {
+    let saved = ""; try { saved = localStorage.getItem("ctcfix.code") || ""; } catch (e) {}
+    if (saved) { $("code-in").value = saved; try { await checkCode(saved); } catch (e) { setAccess({ valid: false }); } }
+    else setAccess({ valid: false });
+  })();
+
+  $("pdf-btn").addEventListener("click", () => { if (!A.valid) return; renderPaper(); window.print(); });
   $("copy-btn").addEventListener("click", async () => {
+    if (!A.valid) return;
     const text = $("paper").innerText;
     const b = $("copy-btn");
     try { await navigator.clipboard.writeText(text); b.textContent = "Copied"; }

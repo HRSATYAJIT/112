@@ -3,6 +3,7 @@
 // rendered by the frontend as Annexure A, so the model never states salary numbers.
 
 import "../public/letter-template.js";
+import { verifyCode } from "./_lib/codes.js";
 
 const MODEL = process.env.CLAUDE_MODEL || "claude-sonnet-5";
 const API_URL = "https://api.anthropic.com/v1/messages";
@@ -86,6 +87,9 @@ export default async function handler(req, res) {
   if (req.method !== "POST") { res.setHeader("Allow", "POST"); return res.status(405).json({ error: "Use POST" }); }
   let body = req.body;
   if (typeof body === "string") { try { body = JSON.parse(body); } catch { body = null; } }
+  const access = verifyCode(process.env.CODE_SECRET, req.headers?.["x-access-code"]);
+  if (!access.valid) return res.status(402).json({ error: access.reason, locked: true });
+
   const errors = validate(body);
   if (errors.length) return res.status(400).json({ error: "Some details are missing or invalid", details: errors });
 

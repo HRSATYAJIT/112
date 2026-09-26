@@ -1,0 +1,47 @@
+/* CTCfix shared styles for pricing, policy and admin pages. The app page carries its own copy of
+   these tokens so it renders standalone. */
+:root{
+  --bg:#F4F6F5; --surface:#FFFFFF; --surface-2:#EEF2F0; --ink:#15211F; --muted:#5D6B68; --line:#DCE3E0;
+  --accent:#0F6E5C; --accent-ink:#FFFFFF; --accent-soft:#E1F0EB;
+  --good:#1D7A46; --good-soft:#E3F2E9; --warn:#9A5B00; --warn-soft:#FBF0DC;
+  --shadow:0 1px 2px rgba(21,33,31,.06),0 4px 16px rgba(21,33,31,.05);
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  color-scheme:dark;
+  --bg:#0F1513; --surface:#161E1B; --surface-2:#1C2622; --ink:#E6EEEB; --muted:#93A39E; --line:#27322E;
+  --accent:#4FC3A1; --accent-ink:#0B1411; --accent-soft:#17332B;
+  --good:#5CCB8A; --good-soft:#15301F; --warn:#E6AE55; --warn-soft:#33260F; --shadow:0 1px 2px rgba(0,0,0,.4);
+}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:20px 48px}
+.nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo .mark{width:34px;height:34px;border-radius:8px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:700 13px/1 var(--display)}
+.logo b{font:700 20px/1 var(--display);letter-spacing:-.01em}
+.nav .links{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px}
+.nav .links a{color:var(--muted);text-decoration:none}
+.nav .links a:hover,.nav .links a[aria-current="page"]{color:var(--ink)}
+.nav .links a.cta{color:var(--accent);font-weight:600}
+h1{font:700 clamp(26px,4vw,38px)/1.12 var(--display);letter-spacing:-.015em;margin:0 0 10px;text-wrap:balance}
+h2{font:700 20px/1.25 var(--display);margin:28px 0 8px}
+.lede{color:var(--muted);font-size:16.5px;max-width:62ch;margin:0 0 28px}
+.prose{max-width:70ch}
+.prose p,.prose li{color:var(--ink)}
+.prose ul{padding-left:20px}
+.prose .updated{color:var(--muted);font-size:13.5px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.label{font:600 11.5px/1 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;background:var(--accent);color:var(--accent-ink);font:600 14.5px/1 var(--sans);padding:13px 18px;border-radius:10px;cursor:pointer;text-decoration:none}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+footer.site{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;font-size:13px;color:var(--muted)}
+footer.site nav{display:flex;flex-wrap:wrap;gap:6px 16px}
+footer.site a{color:var(--muted)}
