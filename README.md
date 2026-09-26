@@ -1,4 +1,4 @@
-# CTCfix (ctcfix.in)
+# CTCfix (ctcfix.org)
 
 Compliant salary structures and offer letters for Indian SMEs and CAs, under the new Labour Codes
 (in force from 21 Nov 2025). States: Karnataka, Maharashtra, Telangana, Haryana, Tamil Nadu.

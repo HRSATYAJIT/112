@@ -101,7 +101,7 @@ pricing = pricing_css + f"""
 terms = f"""<div class="prose">
 <h1>Terms of service</h1>
 <p class="updated">Last updated {UPDATED}</p>
-<p>CTCfix (ctcfix.in) is operated by {OWNER}, a sole proprietor based in Bengaluru, Karnataka ("we", "us"). By using CTCfix you agree to these terms.</p>
+<p>CTCfix (ctcfix.org) is operated by {OWNER}, a sole proprietor based in Bengaluru, Karnataka ("we", "us"). By using CTCfix you agree to these terms.</p>
 <h2>The service</h2>
 <p>CTCfix calculates salary structures under India's Labour Codes and state rules, and drafts employment letters. The free calculator is open to everyone. Paid plans unlock letter drafting and downloads for the period you pay for.</p>
 <h2>Not legal or tax advice</h2>
