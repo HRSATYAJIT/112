@@ -30,10 +30,26 @@ Without `ANTHROPIC_API_KEY` the letter API returns the standard template, so eve
    - `CLAUDE_MODEL` (optional) — defaults to `claude-sonnet-5`
 3. Deploy. Every push to `main` redeploys.
 
+## Pages
+
+| Path | Who it's for |
+|---|---|
+| `/` | Chooser: employee or business |
+| `/me` | Employees: salary slip check, offer check, peer salaries, Compare my offer (₹199) |
+| `/business` | Businesses and CAs: salary structure calculator, offer letters (₹399 / ₹2,299) |
+| `/pricing`, `/terms`, `/privacy`, `/refund`, `/contact` | Plans and policies |
+| `/admin` | Issue codes, review shared offers, add verified peer rows |
+
+## Peer data and storage
+
+Peer rows start from Randstad India's Annual Salary Trends Report 2024-25 (sales & BD, FMCG / E-commerce / BFSI,
+6+ years). Shared offers and admin-added rows need Redis: in Vercel, Storage → Upstash for Redis → connect to this
+project (sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`), then redeploy. Without it, sharing shows "opens soon".
+
 ## Payments and access codes
 
 Customers pay by UPI (QR on `/pricing`), send a screenshot on WhatsApp, and get an access code.
-Codes are HMAC-signed and carry their plan and expiry, so there is no database.
+Codes are HMAC-signed and carry their plan (I individual, S SME, C CA) and expiry, so there is no database.
 
 - Issue codes at `/admin` with your `ADMIN_KEY`.
 - Vercel environment variables: `CODE_SECRET` (signs codes; never change it, or all codes stop working)

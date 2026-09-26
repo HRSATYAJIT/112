@@ -12,10 +12,10 @@
 </head>
 <body>
 <div class="wrap">
-<header class="nav"><a class="logo" href="index.html"><span class="mark">CF</span><b>CTCfix</b></a><nav class="links"><a href="index.html">Calculator</a><a href="index.html#letter">Offer letters</a><a href="pricing.html" aria-current="page" class="cta">Pricing</a><a href="contact.html">Contact</a></nav></header>
+<header class="nav"><a class="logo" href="index.html"><span class="mark">CF</span><b>CTCfix</b></a><nav class="links"><a href="me.html">For employees</a><a href="business.html">For businesses</a><a href="pricing.html" aria-current="page" class="cta">Pricing</a><a href="contact.html">Contact</a></nav></header>
 <style>
-.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
-@media (max-width:900px){.plans{grid-template-columns:1fr}}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;align-items:start}
+.group{margin:32px 0 12px}
 .plan{padding:22px;display:flex;flex-direction:column;gap:16px}
 .plan.featured{border:2px solid var(--accent)}
 .price{display:flex;align-items:baseline;gap:4px;margin:8px 0 4px}
@@ -33,15 +33,38 @@ code{font:500 12.5px var(--mono);background:var(--surface-2);padding:2px 5px;bor
 .faq p{margin:0;color:var(--muted)}
 .note{font-size:13px;color:var(--muted);margin-top:14px}
 </style>
-<h1>Simple monthly plans. Cancel anytime.</h1>
-<p class="lede">The salary calculator is free for everyone. A plan unlocks offer and appointment letters drafted by Claude, with PDF download and a compliant Annexure A.</p>
+<h1>Simple plans for employees and businesses</h1>
+<p class="lede">Salary slip and offer checks are free for everyone. Pay only to compare your offer with peers, or to create offer letters for your company.</p>
+<h2 class="group">For employees</h2>
+<div class="plans">
+<article class="card plan free">
+  <div class="phead"><span class="label">Free</span><div class="price"><b>₹0</b></div><p class="who">For anyone with a salary slip or job offer</p></div>
+  <ul class="feats"><li>Salary slip check: PF, ESI, professional tax, 50% wage rule and arithmetic</li><li>Offer check: real take-home, variable pay and risky clauses</li><li>Ready messages to send HR</li><li>Peer salary list, read-only</li></ul>
+  <a class="btn ghost" href="me.html">Check my salary</a>
+</article>
+<article class="card plan featured" id="individual">
+  <div class="phead"><span class="label">Compare my offer</span><div class="price"><b>₹199</b><span> one-time</span></div><p class="who">One-time, for a salary negotiation</p></div>
+  <ul class="feats"><li>See where your CTC sits against peers in FMCG, E-commerce and BFSI, city by city</li><li>Cited report figures plus anonymised shared offers</li><li>A negotiation message ready to send</li><li>Valid until the end of next month</li></ul>
+  <div class="pay">
+    <img src="upi-ind.svg" alt="UPI QR code to pay ₹199 to Satyajit Tripathy" width="168" height="168">
+    <div class="steps">
+      <ol>
+        <li>Scan with any UPI app, or <a href="upi://pay?pa=7761830260@pthdfc&pn=SATYAJIT%20TRIPATHY&am=199.00&cu=INR&tn=CTCfix%20Individual%20plan">tap to pay on your phone</a>. UPI ID <code>7761830260@pthdfc</code>.</li>
+        <li><a href="https://wa.me/917338107498?text=Hi%2C%20I%20paid%20%E2%82%B9199%20for%20the%20CTCfix%20Individual%20plan.%20Screenshot%20attached.%20Company%20name%3A%20" target="_blank" rel="noopener">Send the payment screenshot on WhatsApp</a>.</li>
+        <li>Get your code within 2 hours (9 AM–9 PM IST) and enter it under Check my job offer.</li>
+      </ol>
+    </div>
+  </div>
+</article>
+</div>
+<h2 class="group">For businesses and CAs</h2>
 <div class="plans">
 <article class="card plan free">
   <div class="phead"><span class="label">Free</span><div class="price"><b>₹0</b></div><p class="who">For checking any salary structure</p></div>
   <ul class="feats"><li>Labour Code salary structure for Karnataka, Maharashtra, Telangana, Haryana and Tamil Nadu</li><li>PF, ESI, gratuity, professional tax and LWF</li><li>Compliance checks and old-vs-new comparison</li><li>Offer letter preview (watermarked)</li></ul>
-  <a class="btn ghost" href="index.html">Open the calculator</a>
+  <a class="btn ghost" href="business.html">Open the calculator</a>
 </article>
-<article class="card plan featured" id="sme">
+<article class="card plan" id="sme">
   <div class="phead"><span class="label">SME</span><div class="price"><b>₹399</b><span>/month</span></div><p class="who">For one company's own hiring</p></div>
   <ul class="feats"><li>Everything in Free</li><li>Unlimited offer and appointment letters for your company</li><li>Letters drafted by Claude, salary figures from the calculator</li><li>PDF download and copy</li><li>WhatsApp support</li></ul>
   <div class="pay">
@@ -70,11 +93,11 @@ code{font:500 12.5px var(--mono);background:var(--surface-2);padding:2px 5px;bor
   </div>
 </article>
 </div>
-<p class="note">Prices are in Indian rupees and are final. Each payment covers access until the end of the following calendar month. Access is personal to the paying business.</p>
+<p class="note">Prices are in Indian rupees and are final. Each payment covers access until the end of the following calendar month. Access is personal to the person or business that paid.</p>
 
 <section class="faq">
 <h2>Questions</h2>
-<h3>Why do I pay by UPI and get a code?</h3><p>Card payments and auto-renewal are coming soon. Until then, UPI is the fastest way to start today. Your code works immediately on the Offer letters tab.</p>
+<h3>Why do I pay by UPI and get a code?</h3><p>Card payments are coming soon. Until then, UPI is the fastest way to start today. Your code works as soon as you enter it.</p><h3>Where does the peer data come from?</h3><p>Figures from Randstad India's Annual Salary Trends Report 2024-25 (each row links to it), plus offers people choose to share anonymously, which we review before they appear.</p>
 <h3>Are the calculations checked?</h3><p>Rates for PF, ESI, gratuity, professional tax and labour welfare fund are verified as of 26 September 2026. Minimum wage and income tax are not calculated yet. Review figures with your payroll adviser before issuing letters.</p>
 <h3>Can I get a refund?</h3><p>Yes, within 7 days of your first payment. See the <a href="refund.html">refund policy</a>.</p>
 <h3>Do you need an invoice?</h3><p>Email <a href="mailto:satyaxlri14@gmail.com">satyaxlri14@gmail.com</a> with your business name and we'll send a payment receipt.</p>

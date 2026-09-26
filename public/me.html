@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CTCfix · Is my salary right?</title>
+<meta name="description" content="Upload your salary slip or job offer. CTCfix checks PF, ESI, professional tax and the new 50% wage rule, and compares your offer with peers in FMCG, E-commerce and BFSI.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+:root{--bad:#B3261E;--bad-soft:#FBE9E7;--info-soft:#EBEFEE}
+@media (prefers-color-scheme:dark){:root{--bad:#FF8A80;--bad-soft:#3A1614;--info-soft:#1F2926}}
+.hero{margin-bottom:22px}
+.hero h1{font-size:clamp(28px,5vw,42px)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:5px;margin-bottom:22px}
+.tabs button{flex:1 1 160px;border:0;background:transparent;color:var(--muted);font:600 15px/1.2 var(--sans);padding:14px 12px;border-radius:10px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:22px;align-items:start}
+@media (max-width:880px){.grid{grid-template-columns:1fr}}
+.panel{padding:20px;display:flex;flex-direction:column;gap:16px}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:22px 16px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;cursor:pointer;background:var(--surface-2);transition:border-color .15s}
+.drop:hover,.drop.over{border-color:var(--accent)}
+.drop b{font:600 16px/1.3 var(--sans)}
+.drop span{font-size:13px;color:var(--muted)}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.file{font-size:13.5px;color:var(--ink);word-break:break-all}
+.privacy{font-size:12.5px;color:var(--muted);margin:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:440px){.row2{grid-template-columns:1fr}}
+.f{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted);min-width:0}
+.f input,.f select{font:500 15px/1.3 var(--sans);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:10px 11px;width:100%;min-width:0}
+.f input:focus,.f select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.btn{width:100%}
+.btn:disabled{opacity:.6;cursor:progress}
+.linkbtn{border:0;background:none;color:var(--accent);font:500 14px var(--sans);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px;align-self:flex-start}
+.err{margin:0;font-size:13.5px;color:var(--warn);background:var(--warn-soft);padding:10px 12px;border-radius:8px}
+details.nums{border-top:1px solid var(--line);padding-top:12px}
+details.nums summary{cursor:pointer;font-weight:600;font-size:14px}
+.numgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.numgrid .f input{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.numgrid h4{grid-column:1/-1;margin:6px 0 0;font:600 11.5px/1 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.results{display:flex;flex-direction:column;gap:14px;min-width:0}
+.summary{padding:18px 20px;display:flex;flex-wrap:wrap;gap:10px 24px;align-items:baseline}
+.summary b{font:700 22px/1.2 var(--display)}
+.summary span{color:var(--muted);font-size:14px}
+.issue{padding:16px 18px;display:flex;flex-direction:column;gap:8px;border-left:4px solid var(--line)}
+.issue.bad{border-left-color:var(--bad)} .issue.warn{border-left-color:var(--warn)} .issue.ok{border-left-color:var(--good)} .issue.info{border-left-color:var(--muted)}
+.issue h3{margin:0;font:600 15.5px/1.35 var(--sans);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.issue p{margin:0;font-size:14px;color:var(--ink)}
+.pill{font:600 10.5px/1 var(--sans);text-transform:uppercase;letter-spacing:.07em;padding:4px 7px;border-radius:5px}
+.pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.ok{background:var(--good-soft);color:var(--good)} .pill.info{background:var(--info-soft);color:var(--muted)}
+.ask{background:var(--surface-2);border-radius:9px;padding:10px 12px;font-size:13.5px;display:flex;flex-direction:column;gap:8px}
+.ask q{quotes:none;font-style:italic}
+.ask button{align-self:flex-start}
+.small{padding:8px 12px;font-size:13px;width:auto}
+.empty{padding:28px 20px;color:var(--muted);display:flex;flex-direction:column;gap:10px}
+.empty ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;color:var(--ink);font-size:14px}
+.clauses{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12.5px;background:var(--warn-soft);color:var(--warn);padding:5px 9px;border-radius:999px}
+.cmp{padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.cmp h2{margin:0}
+.locked{background:var(--accent-soft);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.locked p{margin:0;font-size:14px}
+.unlockrow{display:flex;gap:8px;flex-wrap:wrap}
+.unlockrow input{flex:1 1 200px;min-width:0;font:500 14px var(--mono);text-transform:uppercase;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:10px}
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar{display:grid;grid-template-columns:92px minmax(0,1fr) 64px;gap:10px;align-items:center;font-size:13.5px}
+.bar .track{height:14px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.bar .fill{height:100%;background:color-mix(in srgb,var(--accent) 45%,transparent);border-radius:4px}
+.bar.you .fill{background:var(--accent)}
+.bar.you{font-weight:600}
+.bar .v{text-align:right;font:500 13px var(--mono);font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+@media (max-width:520px){.stats{grid-template-columns:1fr}}
+.stats div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.stats b{font:600 20px/1.1 var(--mono)}
+.stats span{font-size:12.5px;color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted);margin:0}
+.share{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:10px;font-size:14px}
+.share label.c{display:flex;gap:10px;align-items:flex-start}
+.share input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:var(--accent);flex:none}
+.filters{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:3px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;color:var(--muted);font:500 13.5px var(--sans);padding:8px 12px;border-radius:7px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);outline:1px solid var(--line)}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:10px 18px;text-align:left;border-top:1px solid var(--line)}
+th{font:600 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--surface-2)}
+td.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+td .src{font-size:12px;color:var(--muted)}
+.tag{font-size:11px;background:var(--accent-soft);color:var(--accent);padding:2px 7px;border-radius:999px;white-space:nowrap}
+.foot{padding:12px 18px 16px;font-size:12.5px;color:var(--muted)}
+.bizlink{font-size:13.5px;color:var(--muted);margin:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="nav"><a class="logo" href="index.html"><span class="mark">CF</span><b>CTCfix</b></a>
+<nav class="links"><a href="me.html" aria-current="page">For employees</a><a href="business.html">For businesses</a><a href="pricing.html#individual" class="cta">Pricing</a><a href="contact.html">Contact</a></nav></header>
+
+<section class="hero">
+  <h1>Is your salary right?</h1>
+  <p class="lede">Upload your salary slip or job offer. We check PF, ESI, professional tax and the new Labour Code rules, then tell you exactly what to ask HR. Free.</p>
+</section>
+
+<nav class="tabs" role="tablist" aria-label="Checks">
+  <button type="button" role="tab" id="t-slip" aria-selected="true" aria-controls="v-slip">Check my salary slip</button>
+  <button type="button" role="tab" id="t-offer" aria-selected="false" aria-controls="v-offer">Check my job offer</button>
+  <button type="button" role="tab" id="t-peers" aria-selected="false" aria-controls="v-peers">Peer salaries</button>
+</nav>
+
+<!-- SALARY SLIP -->
+<section id="v-slip" role="tabpanel" aria-labelledby="t-slip">
+<div class="grid">
+  <form class="card panel" id="slip-form" autocomplete="off">
+    <label class="drop" id="slip-drop"><input type="file" id="slip-file" accept="image/*,application/pdf"><b>Upload your salary slip</b><span>Photo, screenshot or PDF · up to 3 MB</span><span class="file" id="slip-name"></span></label>
+    <p class="privacy">We read your slip once to pull out the numbers and don't store it. You can cover your name, PAN and bank details first.</p>
+    <div class="row2">
+      <label class="f">State you work in<select id="slip-state"><option value="KA">Karnataka</option><option value="MH">Maharashtra</option><option value="TG">Telangana</option><option value="HR">Haryana</option><option value="TN">Tamil Nadu</option><option value="">Other state</option></select></label>
+      <label class="f" id="slip-gender-wrap">You are<select id="slip-gender"><option value="M">Male</option><option value="F">Female</option></select></label>
+    </div>
+    <button type="submit" class="btn" id="slip-go">Check my slip</button>
+    <p class="err" id="slip-err" role="alert" hidden></p>
+    <details class="nums" id="slip-nums">
+      <summary>Salary numbers (monthly) · check or type them</summary>
+      <div class="numgrid" id="slip-grid"></div>
+    </details>
+  </form>
+  <div class="results" id="slip-out" aria-live="polite"></div>
+</div>
+</section>
+
+<!-- OFFER -->
+<section id="v-offer" role="tabpanel" aria-labelledby="t-offer" hidden>
+<div class="grid">
+  <form class="card panel" id="offer-form" autocomplete="off">
+    <label class="drop" id="offer-drop"><input type="file" id="offer-file" accept="image/*,application/pdf"><b>Upload your offer letter</b><span>Include the salary annexure · photo or PDF · up to 3 MB</span><span class="file" id="offer-name"></span></label>
+    <p class="privacy">We read it once and don't store it or the company name.</p>
+    <div class="row2">
+      <label class="f">Industry<select id="o-industry"><option value="FMCG">FMCG</option><option value="E-commerce">E-commerce</option><option value="BFSI">BFSI</option></select></label>
+      <label class="f">City<select id="o-city"><option>Bengaluru</option><option>Mumbai</option><option>Delhi-NCR</option><option>Hyderabad</option><option>Chennai</option><option>Pune</option><option>Kolkata</option><option>Ahmedabad</option><option value="Other">Other</option></select></label>
+      <label class="f">Your function<input id="o-function" placeholder="e.g. Sales, Finance, Marketing"></label>
+      <label class="f">Years of experience<input id="o-years" inputmode="numeric" placeholder="e.g. 8"></label>
+    </div>
+    <button type="submit" class="btn" id="offer-go">Check my offer</button>
+    <p class="err" id="offer-err" role="alert" hidden></p>
+    <details class="nums" id="offer-nums">
+      <summary>Offer numbers (yearly) · check or type them</summary>
+      <div class="numgrid" id="offer-grid"></div>
+    </details>
+  </form>
+  <div class="results" id="offer-out" aria-live="polite"></div>
+</div>
+</section>
+
+<!-- PEERS -->
+<section id="v-peers" role="tabpanel" aria-labelledby="t-peers" hidden>
+  <div class="card">
+    <div class="filters">
+      <div class="seg" id="p-ind" role="group" aria-label="Industry"></div>
+      <div class="seg" id="p-lvl" role="group" aria-label="Experience"></div>
+    </div>
+    <div class="tablewrap"><table><thead><tr><th>City</th><th>Role</th><th>Experience</th><th class="n">Annual CTC</th><th>Source</th></tr></thead><tbody id="p-body"><tr><td colspan="5">Loading peer salaries…</td></tr></tbody></table></div>
+    <p class="foot" id="p-foot"></p>
+  </div>
+</section>
+
+<footer class="site"><span>© 2026 CTCfix · Operated by Satyajit Tripathy, sole proprietor, Bengaluru</span>
+<nav><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellation</a><a href="contact.html">Contact</a></nav></footer>
+</div>
+
+<script src="engine.js"></script>
+<script src="checks.js"></script>
+<script>
+(function(){
+  const $ = (id) => document.getElementById(id);
+  const esc = (x) => String(x ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const num = (v) => { const x = parseFloat(String(v ?? "").replace(/[₹,\s]/g, "")); return Number.isFinite(x) ? x : null; };
+  const inr = (x) => "₹" + Math.round(x).toLocaleString("en-IN");
+  const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
+
+  // ---------- Tabs
+  const tabs = ["slip", "offer", "peers"];
+  function show(name){
+    tabs.forEach((t) => { $("v-" + t).hidden = t !== name; $("t-" + t).setAttribute("aria-selected", String(t === name)); });
+    if (name === "peers") loadPeers();
+  }
+  tabs.forEach((t) => $("t-" + t).addEventListener("click", () => show(t)));
+  const hash = location.hash.replace("#", "");
+  if (tabs.includes(hash)) show(hash);
+
+  // ---------- File reading (images are shrunk so uploads stay small and fast)
+  async function readFile(file){
+    if (!file) return null;
+    if (file.type === "application/pdf") {
+      if (file.size > 3 * 1024 * 1024) throw new Error("That PDF is over 3 MB. Upload a photo or screenshot of the salary section instead.");
+      const b64 = await new Promise((ok, bad) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.onerror = bad; r.readAsDataURL(file); });
+      return { mediaType: "application/pdf", data: b64 };
+    }
+    if (!file.type.startsWith("image/")) throw new Error("Upload a photo, screenshot or PDF.");
+    const url = URL.createObjectURL(file);
+    try {
+      const img = await new Promise((ok, bad) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => bad(new Error("We couldn't open that image. Try a JPG or PNG.")); i.src = url; });
+      const scale = Math.min(1, 1800 / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * scale); c.height = Math.round(img.naturalHeight * scale);
+      const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height); ctx.drawImage(img, 0, 0, c.width, c.height);
+      return { mediaType: "image/jpeg", data: c.toDataURL("image/jpeg", 0.85).split(",")[1] };
+    } finally { URL.revokeObjectURL(url); }
+  }
+  function wireDrop(prefix){
+    const drop = $(prefix + "-drop"), input = $(prefix + "-file");
+    input.addEventListener("change", () => { $(prefix + "-name").textContent = input.files[0] ? input.files[0].name : ""; });
+    ["dragenter", "dragover"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+    ["dragleave", "drop"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove("over"); }));
+    drop.addEventListener("drop", (e) => { if (e.dataTransfer.files[0]) { input.files = e.dataTransfer.files; $(prefix + "-name").textContent = input.files[0].name; } });
+  }
+  wireDrop("slip"); wireDrop("offer");
+
+  async function analyze(kind, file){
+    const doc = await readFile(file);
+    const res = await fetch("/api/analyze", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, ...doc }) });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || "We couldn't read that document.");
+    return data.fields || {};
+  }
+
+  // ---------- Number grids
+  function grid(el, groups){
+    el.innerHTML = groups.map(([title, fields]) => `<h4>${title}</h4>` + fields.map(([id, label]) =>
+      `<label class="f">${label}<input id="${id}" inputmode="decimal" placeholder="0"></label>`).join("")).join("");
+  }
+  grid($("slip-grid"), [
+    ["Earnings", [["s-basic","Basic"],["s-da","Dearness allowance (DA)"],["s-hra","HRA"],["s-special","Special allowance"],["s-conveyance","Conveyance"],["s-lta","LTA"],["s-medical","Medical"],["s-other","Other earnings"],["s-gross","Gross pay"]]],
+    ["Deductions", [["s-pf","PF"],["s-vpf","Voluntary PF"],["s-esi","ESI"],["s-pt","Professional tax"],["s-lwf","Labour welfare fund"],["s-tds","Income tax (TDS)"],["s-odd","Other deductions"],["s-net","Net pay"]]],
+    ["Optional", [["s-erpf","Employer PF (if shown)"],["s-month","Month (e.g. February)"]]],
+  ]);
+  $("s-month").removeAttribute("inputmode");
+  grid($("offer-grid"), [
+    ["Total", [["o-ctc","Annual CTC"],["o-fixed","Fixed pay"],["o-variable","Variable / performance pay"],["o-bonus","Joining bonus"],["o-esop","ESOPs / RSUs"]]],
+    ["Breakup", [["o-basic","Basic"],["o-hra","HRA"],["o-special","Special allowance"],["o-otherx","Conveyance, LTA, reimbursements"],["o-erpf","Employer PF"],["o-grat","Gratuity"],["o-ins","Insurance"]]],
+    ["Terms", [["o-notice","Notice period (days)"],["o-prob","Probation (months)"]]],
+  ]);
+
+  function setVal(id, v){ if (v !== null && v !== undefined && v !== "") $(id).value = typeof v === "number" ? v.toLocaleString("en-IN") : v; }
+
+  // ---------- Result rendering
+  function renderIssues(el, list, extraTop = ""){
+    const bad = list.filter((x) => x.level === "bad").length, warn = list.filter((x) => x.level === "warn").length, ok = list.filter((x) => x.level === "ok").length;
+    const head = bad + warn
+      ? `<div class="card summary"><b>${bad + warn} thing${bad + warn === 1 ? "" : "s"} to raise with HR</b><span>${ok} look${ok === 1 ? "s" : ""} right</span></div>`
+      : `<div class="card summary"><b>No problems found</b><span>${ok} check${ok === 1 ? "" : "s"} passed</span></div>`;
+    const order = { bad: 0, warn: 1, info: 2, ok: 3 };
+    const label = { bad: "Fix this", warn: "Check this", info: "Good to know", ok: "Looks right" };
+    el.innerHTML = head + extraTop + [...list].sort((a, b) => order[a.level] - order[b.level]).map((x, i) => `
+      <article class="card issue ${x.level}"><h3><span class="pill ${x.level}">${label[x.level]}</span>${esc(x.title)}</h3><p>${esc(x.detail)}</p>
+      ${x.ask ? `<div class="ask"><span><b>Ask HR:</b> <q>${esc(x.ask)}</q></span><button type="button" class="btn ghost small" data-copy="${esc(x.ask)}">Copy message</button></div>` : ""}</article>`).join("");
+  }
+  document.addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-copy]"); if (!b) return;
+    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = "Copied"; } catch (err) { b.textContent = "Select the text and copy"; }
+    setTimeout(() => (b.textContent = "Copy message"), 1800);
+  });
+
+  // ---------- Salary slip
+  const sv = (id) => num($(id).value);
+  function slipData(){
+    return { state: $("slip-state").value, gender: $("slip-gender").value, month: $("s-month").value,
+      earnings: { basic: sv("s-basic"), da: sv("s-da"), hra: sv("s-hra"), special: sv("s-special"), conveyance: sv("s-conveyance"), lta: sv("s-lta"), medical: sv("s-medical"), other: sv("s-other") ? [{ name: "Other", amount: sv("s-other") }] : [] },
+      gross: sv("s-gross"), net: sv("s-net"), employerPF: sv("s-erpf"),
+      deductions: { pf: sv("s-pf"), vpf: sv("s-vpf"), esi: sv("s-esi"), pt: sv("s-pt"), lwf: sv("s-lwf"), tds: sv("s-tds"), other: sv("s-odd") ? [{ name: "Other", amount: sv("s-odd") }] : [] } };
+  }
+  let slipShown = false;
+  function runSlip(){ slipShown = true; renderIssues($("slip-out"), CTCfixChecks.checkSlip(slipData())); }
+  function slipEmpty(){
+    $("slip-out").innerHTML = `<div class="card empty"><b style="color:var(--ink);font-size:16px">What we check</b><ul>
+      <li>PF: is 12% of your basic being deducted, and is your employer contributing?</li>
+      <li>ESI: are you covered if your gross is ₹21,000 or less?</li>
+      <li>Professional tax: is it the right amount for your state?</li>
+      <li>New Labour Codes: are allowances within the 50% limit, so your gratuity isn't short-changed?</li>
+      <li>Does the slip add up?</li></ul></div>`;
+  }
+  slipEmpty();
+  $("slip-state").addEventListener("change", () => { $("slip-gender-wrap").hidden = $("slip-state").value !== "MH"; if (slipShown) runSlip(); });
+  $("slip-gender-wrap").hidden = true;
+  $("slip-gender").addEventListener("change", () => slipShown && runSlip());
+  $("slip-grid").addEventListener("input", () => runSlip());
+
+  $("slip-form").addEventListener("submit", async (e) => {
+    e.preventDefault(); const err = $("slip-err"); err.hidden = true;
+    const file = $("slip-file").files[0];
+    if (!file) {
+      if (sv("s-basic") || sv("s-gross")) { runSlip(); return; }
+      err.textContent = "Upload your salary slip, or open the numbers below and type them in."; err.hidden = false; $("slip-nums").open = true; return;
+    }
+    const b = $("slip-go"); b.disabled = true; b.textContent = "Reading your slip…";
+    try {
+      const f = await analyze("slip", file);
+      const ea = f.earnings || {}, de = f.deductions || {};
+      document.querySelectorAll("#slip-grid input").forEach((i) => (i.value = ""));
+      setVal("s-basic", ea.basic); setVal("s-da", ea.da); setVal("s-hra", ea.hra); setVal("s-special", ea.special); setVal("s-conveyance", ea.conveyance);
+      setVal("s-lta", ea.lta); setVal("s-medical", ea.medical);
+      const oth = (ea.other || []).reduce((a, x) => a + (num(x.amount) || 0), 0) + (num(ea.overtime) || 0) + (num(ea.commission) || 0); if (oth) setVal("s-other", oth);
+      setVal("s-gross", f.gross); setVal("s-pf", de.pf); setVal("s-vpf", de.vpf); setVal("s-esi", de.esi); setVal("s-pt", de.pt); setVal("s-lwf", de.lwf); setVal("s-tds", de.tds);
+      const od = (de.other || []).reduce((a, x) => a + (num(x.amount) || 0), 0); if (od) setVal("s-odd", od);
+      setVal("s-net", f.net); setVal("s-erpf", f.employerPF); setVal("s-month", f.month);
+      $("slip-nums").open = true; runSlip();
+      $("slip-out").insertAdjacentHTML("afterbegin", `<p class="note">Numbers read from your slip. If any is wrong, correct it on the left and the checks update.</p>`);
+    } catch (ex) { err.textContent = ex.message; err.hidden = false; $("slip-nums").open = true; }
+    finally { b.disabled = false; b.textContent = "Check my slip"; }
+  });
+
+  // ---------- Offer
+  function offerData(){
+    return { annualCTC: sv("o-ctc"), fixed: sv("o-fixed"), variable: sv("o-variable"), joiningBonus: sv("o-bonus"), esopValue: sv("o-esop"),
+      basic: sv("o-basic"), hra: sv("o-hra"), special: sv("o-special"), otherExcluded: sv("o-otherx"), employerPF: sv("o-erpf"), gratuity: sv("o-grat"), insurance: sv("o-ins"),
+      noticeDays: sv("o-notice"), probationMonths: sv("o-prob"), clauses: offerClauses,
+      state: { Bengaluru: "KA", Mumbai: "MH", Pune: "MH", Hyderabad: "TG", Chennai: "TN" }[$("o-city").value] || (/(gurgaon|gurugram)/i.test($("o-city").value) ? "HR" : "") };
+  }
+  let offerClauses = [], offerShown = false;
+  function offerEmpty(){
+    $("offer-out").innerHTML = `<div class="card empty"><b style="color:var(--ink);font-size:16px">What we check</b><ul>
+      <li>Your real monthly take-home, not the CTC headline</li>
+      <li>How much of the CTC is variable, bonus or employer contributions</li>
+      <li>Whether the structure meets the new 50% wage rule</li>
+      <li>Clauses to negotiate: bonus clawback, bonds, long notice periods</li>
+      <li>How your offer compares with peers in FMCG, E-commerce and BFSI</li></ul></div>`;
+  }
+  offerEmpty();
+  function runOffer(){
+    offerShown = true;
+    const chips = offerClauses.length ? `<div class="card issue info"><h3>Clauses we found</h3><div class="clauses">${offerClauses.map((c) => `<span class="chip">${esc({ clawback: "Bonus clawback", bond: "Service bond", noncompete: "Non-compete", variableConditions: "Variable pay conditions" }[c.type] || c.type)}</span>`).join("")}</div></div>` : "";
+    renderIssues($("offer-out"), CTCfixChecks.checkOffer(offerData()));
+    $("offer-out").insertAdjacentHTML("beforeend", chips + compareCard());
+    wireCompare();
+  }
+  $("offer-grid").addEventListener("input", () => runOffer());
+  ["o-industry", "o-city", "o-function", "o-years"].forEach((id) => $(id).addEventListener("change", () => offerShown && runOffer()));
+
+  $("offer-form").addEventListener("submit", async (e) => {
+    e.preventDefault(); const err = $("offer-err"); err.hidden = true;
+    const file = $("offer-file").files[0];
+    if (!file) {
+      if (sv("o-ctc")) { runOffer(); return; }
+      err.textContent = "Upload your offer letter, or open the numbers below and type the CTC."; err.hidden = false; $("offer-nums").open = true; return;
+    }
+    const b = $("offer-go"); b.disabled = true; b.textContent = "Reading your offer…";
+    try {
+      const f = await analyze("offer", file);
+      document.querySelectorAll("#offer-grid input").forEach((i) => (i.value = ""));
+      setVal("o-ctc", f.annualCTC); setVal("o-fixed", f.fixed); setVal("o-variable", f.variable); setVal("o-bonus", f.joiningBonus); setVal("o-esop", f.esopValue);
+      setVal("o-basic", f.basic); setVal("o-hra", f.hra); setVal("o-special", f.special); setVal("o-otherx", f.otherExcluded); setVal("o-erpf", f.employerPF);
+      setVal("o-grat", f.gratuity); setVal("o-ins", f.insurance); setVal("o-notice", f.noticeDays); setVal("o-prob", f.probationMonths);
+      if (["FMCG", "E-commerce", "BFSI"].includes(f.industryGuess)) $("o-industry").value = f.industryGuess;
+      if (f.city) { const c = [...$("o-city").options].find((o) => f.city.toLowerCase().includes(o.value.toLowerCase().split("-")[0])); if (c) $("o-city").value = c.value; }
+      if (f.designation && !$("o-function").value) $("o-function").value = f.designation;
+      offerClauses = Array.isArray(f.clauses) ? f.clauses : [];
+      $("offer-nums").open = true; runOffer();
+    } catch (ex) { err.textContent = ex.message; err.hidden = false; $("offer-nums").open = true; }
+    finally { b.disabled = false; b.textContent = "Check my offer"; }
+  });
+
+  // ---------- Compare (paid) + share (free, consented)
+  let peerRows = null, sharing = false, lastCompare = null;
+  function lakh(){ const c = sv("o-ctc"); return c ? Math.round((c / 1e5) * 100) / 100 : null; }
+  function compareCard(){
+    const ind = $("o-industry").value, years = num($("o-years").value);
+    const level = years == null ? null : years >= 15 ? "Senior" : years >= 6 ? "Middle" : "Junior";
+    const n = peerRows ? peerRows.filter((r) => r.industry === ind && (!level || r.level === level)).length : null;
+    const code = store.get("ctcfix.code");
+    const body = lastCompare ? compareResult(lastCompare)
+      : `<div class="locked"><p><b>Compare my offer with peers · ₹199 one-time</b><br>See where your CTC sits against ${n ?? "cited"} ${esc(ind)} peer figures${level ? ` at ${level === "Senior" ? "15+" : level === "Middle" ? "6–14" : "0–5"} years` : ""}, city by city, with a negotiation message ready to send.</p>
+         <div class="unlockrow"><input id="c-code" placeholder="CTCFIX-I…" value="${esc(code || "")}" spellcheck="false"><button type="button" class="btn small" id="c-go">Compare</button></div>
+         <p class="note"><a href="pricing.html#individual">Get a code for ₹199</a> · Or browse the free <a href="#peers" id="to-peers">peer list</a>.</p><p class="err" id="c-err" hidden></p></div>`;
+    const shareBox = `<div class="share" id="share-box"><b>Help others: share your offer anonymously</b>
+      <label class="c"><input type="checkbox" id="sh-ok"><span>Add my industry, function, years of experience, city, CTC, basic % and fixed % to the peer list. No names, company or documents. Reviewed before it appears.</span></label>
+      <button type="button" class="btn ghost small" id="sh-go">Share anonymously</button><p class="note" id="sh-msg"></p></div>`;
+    return `<section class="card cmp"><h2>How does this compare?</h2>${body}${shareBox}</section>`;
+  }
+  function compareResult(c){
+    const max = Math.max(c.you, ...(c.report ? c.report.cities.map((x) => x.ctcLakh) : [0]), c.people ? c.people.p75 : 0) * 1.05;
+    const bar = (label, v, you) => `<div class="bar${you ? " you" : ""}"><span>${esc(label)}</span><div class="track"><div class="fill" style="width:${(v / max * 100).toFixed(1)}%"></div></div><span class="v">₹${v.toFixed(1)} L</span></div>`;
+    const rows = c.report ? [...c.report.cities.map((x) => ({ ...x, you: false })), { city: "Your offer", ctcLakh: c.you, you: true }].sort((a, b) => b.ctcLakh - a.ctcLakh) : [{ city: "Your offer", ctcLakh: c.you, you: true }];
+    return `<div class="stats">
+        <div><b>₹${c.you} L</b><span>Your CTC</span></div>
+        <div><b>${c.cityRow ? "₹" + c.cityRow.ctcLakh + " L" : c.report ? "₹" + c.report.median + " L" : "—"}</b><span>${c.cityRow ? esc(c.cityRow.city) + " average" : "Median across cities"}</span></div>
+        <div><b>${c.cityRow ? (c.cityRow.diffPct > 0 ? "+" : "") + c.cityRow.diffPct + "%" : c.report ? c.report.aboveCities + " of " + c.report.totalCities : "—"}</b><span>${c.cityRow ? "vs your city" : "cities you're above"}</span></div></div>
+      ${c.report ? `<div class="bars" aria-label="Average CTC by city">${rows.map((r) => bar(r.city, r.ctcLakh, r.you)).join("")}</div>
+      <p class="note">${esc(c.report.function)}, ${esc(c.industry)}, ${c.level === "Senior" ? "15+" : "6–14"} years. Source: <a href="${esc(c.report.source.url)}" target="_blank" rel="noopener">${esc(c.report.source.name)}</a>.</p>` : ""}
+      ${c.people ? `<p class="note"><b>${c.people.count} shared offers</b>${c.people.sameFunction ? " in your function" : ""}: 25th percentile ₹${c.people.p25} L, median ₹${c.people.median} L, 75th percentile ₹${c.people.p75} L${c.people.basicMedian ? `, median basic ${c.people.basicMedian}% of CTC` : ""}.</p>` : ""}
+      ${(c.notes || []).map((n) => `<p class="note">${esc(n)}</p>`).join("")}
+      ${c.ask ? `<div class="ask"><span><b>Negotiate:</b> <q>${esc(c.ask)}</q></span><button type="button" class="btn ghost small" data-copy="${esc(c.ask)}">Copy message</button></div>` : `<p class="note"><b>Your offer is at or above the peer reference.</b></p>`}`;
+  }
+  async function doCompare(code){
+    const err = $("c-err"); if (err) err.hidden = true;
+    const years = num($("o-years").value), ctcLakh = lakh();
+    const fail = (m) => { if (err) { err.textContent = m; err.hidden = false; } };
+    if (!ctcLakh) return fail("Enter your annual CTC in the offer numbers first.");
+    if (years == null) return fail("Enter your years of experience.");
+    const res = await fetch("/api/compare", { method: "POST", headers: { "content-type": "application/json", "x-access-code": code },
+      body: JSON.stringify({ industry: $("o-industry").value, years, city: $("o-city").value, ctcLakh, function: $("o-function").value }) });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) { if (res.status === 402) store.del("ctcfix.code"); return fail(data.error || "Couldn't compare right now."); }
+    store.set("ctcfix.code", code); lastCompare = data; runOffer();
+  }
+  function wireCompare(){
+    const go = $("c-go");
+    if (go) go.addEventListener("click", async () => { go.disabled = true; go.textContent = "Comparing…"; try { await doCompare($("c-code").value.trim().toUpperCase()); } catch (e) { const er = $("c-err"); er.textContent = "Couldn't reach CTCfix. Try again."; er.hidden = false; } finally { if ($("c-go")) { $("c-go").disabled = false; $("c-go").textContent = "Compare"; } } });
+    const tp = $("to-peers"); if (tp) tp.addEventListener("click", (e) => { e.preventDefault(); show("peers"); });
+    const sh = $("sh-go");
+    if (sh) sh.addEventListener("click", async () => {
+      const msg = $("sh-msg");
+      if (!sharing) { msg.textContent = "Sharing opens soon. Thank you for offering."; return; }
+      const ctc = sv("o-ctc"), basic = sv("o-basic"), fixed = sv("o-fixed");
+      sh.disabled = true;
+      try {
+        const res = await fetch("/api/peers", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({
+          industry: $("o-industry").value, function: $("o-function").value, years: num($("o-years").value), city: $("o-city").value, ctcLakh: lakh(),
+          basicPct: ctc && basic ? (basic / ctc) * 100 : null, fixedPct: ctc && fixed ? (fixed / ctc) * 100 : null, consent: $("sh-ok").checked }) });
+        const d = await res.json().catch(() => ({}));
+        msg.textContent = res.ok ? d.message : d.error || "Couldn't share right now.";
+        if (res.ok) sh.hidden = true;
+      } finally { sh.disabled = false; }
+    });
+  }
+  // Load peers once for counts; re-validate a saved code silently.
+  fetch("/api/peers").then((r) => r.json()).then((d) => { peerRows = d.rows || []; sharing = !!d.sharing; if (offerShown && !lastCompare) runOffer(); }).catch(() => { peerRows = []; });
+
+  // ---------- Peer list (read-only, free)
+  const P = { ind: "FMCG", lvl: "All", loaded: false };
+  function seg(el, values, key){
+    el.innerHTML = values.map(([v, l]) => `<button type="button" data-v="${v}" aria-pressed="${P[key] === v}">${l}</button>`).join("");
+    el.onclick = (e) => { const b = e.target.closest("button[data-v]"); if (!b) return; P[key] = b.dataset.v; renderPeers(); };
+  }
+  function renderPeers(){
+    seg($("p-ind"), [["FMCG", "FMCG"], ["E-commerce", "E-commerce"], ["BFSI", "BFSI"]], "ind");
+    seg($("p-lvl"), [["All", "All experience"], ["Middle", "6–14 years"], ["Senior", "15+ years"]], "lvl");
+    if (!peerRows) { $("p-body").innerHTML = `<tr><td colspan="5">Loading peer salaries…</td></tr>`; return; }
+    const rows = peerRows.filter((r) => r.industry === P.ind && (P.lvl === "All" || r.level === P.lvl)).sort((a, b) => (a.level === b.level ? b.ctcLakh - a.ctcLakh : a.level === "Senior" ? -1 : 1));
+    $("p-body").innerHTML = rows.length ? rows.map((r) => `<tr><td>${esc(r.city)}</td><td>${esc(r.function)}</td><td>${r.level === "Senior" ? "15+ years" : r.level === "Middle" ? "6–14 years" : "0–5 years"}</td><td class="n">₹${Number(r.ctcLakh).toFixed(2)} L</td>
+      <td>${r.kind === "report" ? `<span class="src">Randstad 2024-25</span>` : r.kind === "user" ? `<span class="tag">Shared by a user</span>` : `<span class="tag">${esc(r.source && r.source.name || "CTCfix")}</span>`}</td></tr>`).join("")
+      : `<tr><td colspan="5">No figures yet for this filter.</td></tr>`;
+    $("p-foot").innerHTML = `Average annual CTC in ₹ lakh. Report figures: <a href="${esc((peerRows.find((r) => r.kind === "report") || { source: {} }).source.url || "#")}" target="_blank" rel="noopener">Randstad India, Annual Salary Trends Report 2024-25</a>, sales and business development roles. Shared offers are anonymous and reviewed before they appear. To see where <b>your</b> offer sits, use <a href="#offer" id="p-to-offer">Check my job offer</a>.`;
+    const t = $("p-to-offer"); if (t) t.onclick = (e) => { e.preventDefault(); show("offer"); };
+  }
+  function loadPeers(){ renderPeers(); if (!peerRows) setTimeout(loadPeers, 400); }
+})();
+</script>
+</body>
+</html>

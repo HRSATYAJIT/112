@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Build Labour Code compliant salary structures and offer letters for Karnataka, Maharashtra, Telangana, Haryana and Tamil Nadu.">
+<!--HEAD-START-->
+<title>CTCfix · Labour Code salary structures and offer letters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F4F6F5; --surface:#FFFFFF; --surface-2:#EEF2F0; --ink:#15211F; --muted:#5D6B68; --line:#DCE3E0;
+  --accent:#0F6E5C; --accent-ink:#FFFFFF; --accent-soft:#E1F0EB;
+  --good:#1D7A46; --good-soft:#E3F2E9; --warn:#9A5B00; --warn-soft:#FBF0DC; --info:#4A5A57; --info-soft:#EBEFEE;
+  --shadow:0 1px 2px rgba(21,33,31,.06),0 4px 16px rgba(21,33,31,.05);
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#0F1513; --surface:#161E1B; --surface-2:#1C2622; --ink:#E6EEEB; --muted:#93A39E; --line:#27322E;
+  --accent:#4FC3A1; --accent-ink:#0B1411; --accent-soft:#17332B;
+  --good:#5CCB8A; --good-soft:#15301F; --warn:#E6AE55; --warn-soft:#33260F; --info:#A9B8B4; --info-soft:#1F2926;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F1513; --surface:#161E1B; --surface-2:#1C2622; --ink:#E6EEEB; --muted:#93A39E; --line:#27322E;
+  --accent:#4FC3A1; --accent-ink:#0B1411; --accent-soft:#17332B;
+  --good:#5CCB8A; --good-soft:#15301F; --warn:#E6AE55; --warn-soft:#33260F; --info:#A9B8B4; --info-soft:#1F2926;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+#lform{position:static}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 56px}
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:38px;height:38px;border-radius:9px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:700 15px/1 var(--display);letter-spacing:.02em}
+h1{font:700 clamp(22px,3.2vw,30px)/1.1 var(--display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--muted);margin:4px 0 0;font-size:14px}
+.asof{font:500 12px/1 var(--mono);color:var(--muted);background:var(--surface);border:1px solid var(--line);padding:8px 10px;border-radius:999px}
+.grid{display:grid;grid-template-columns:340px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+/* Inputs */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;gap:18px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+@media (max-width:900px){.panel{position:static}}
+.field{display:flex;flex-direction:column;gap:8px}
+.label{font:600 11.5px/1 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+.ctc{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);padding:0 12px;transition:border-color .15s}
+.ctc:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.ctc span{font:500 18px var(--mono);color:var(--muted)}
+.ctc input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:600 22px/1 var(--mono);padding:12px 8px;outline:none;font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 12.5px/1 var(--mono);border:1px solid var(--line);background:transparent;color:var(--ink);padding:7px 10px;border-radius:999px;cursor:pointer}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
+.seg.states{grid-auto-flow:row;grid-template-columns:repeat(5,1fr)}
+.seg button{border:0;background:transparent;color:var(--muted);font:500 13px/1.2 var(--sans);padding:9px 6px;border-radius:7px;cursor:pointer;min-width:0}
+.seg.states button{font:600 13px/1 var(--mono);padding:10px 0}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08);outline:1px solid var(--line)}
+.seg button:hover:not([aria-pressed="true"]){color:var(--ink)}
+.statename{font-size:13px;color:var(--ink);font-weight:500}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer}
+.switch input{appearance:none;width:40px;height:24px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .15s}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(16px)}
+.divider{height:1px;background:var(--line);margin:2px 0}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.rangehead{display:flex;justify-content:space-between;align-items:baseline}
+.rangehead b{font:600 14px var(--mono)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Results */
+.results{display:flex;flex-direction:column;gap:20px;min-width:0}
+.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+@media (max-width:620px){.summary{grid-template-columns:1fr}}
+.stat{background:var(--surface);padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.stat .v{font:600 clamp(22px,2.6vw,28px)/1.1 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stat .v.accent{color:var(--accent)}
+.stat .s{font-size:12.5px;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.cardhead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;padding:16px 18px 10px}
+h2{font:700 18px/1.2 var(--display);margin:0;letter-spacing:-.005em}
+.cardhead p{margin:0;font-size:13px;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{padding:9px 18px;text-align:left;border-top:1px solid var(--line);font-size:14px}
+th{font:600 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:var(--surface-2);padding-block:10px}
+td.n,th.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+tr.group td{font:600 11px/1 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);padding-top:16px;border-top:0}
+tr.total td{font-weight:600;background:var(--surface-2)}
+tr.total td.n{font-weight:600}
+tr.net td{background:var(--accent-soft);color:var(--ink);font-weight:600;font-size:15px}
+tr.net td.n{color:var(--accent)}
+td small{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:2px}
+td.neg::before{content:"− "}
+.foot{padding:12px 18px 16px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line);border-radius:0 0 14px 14px;overflow:hidden}
+@media (max-width:620px){.checks{grid-template-columns:1fr}}
+.check{background:var(--surface);padding:14px 18px;display:flex;flex-direction:column;gap:6px}
+.check h3{margin:0;font:600 14px/1.3 var(--sans);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.check p{margin:0;font-size:13px;color:var(--muted)}
+.pill{font:600 10.5px/1 var(--sans);text-transform:uppercase;letter-spacing:.07em;padding:4px 7px;border-radius:5px}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.info{background:var(--info-soft);color:var(--info)}
+
+.compare{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line)}
+@media (max-width:620px){.compare{grid-template-columns:1fr}}
+.cmp{background:var(--surface);padding:14px 18px;display:flex;flex-direction:column;gap:4px}
+.cmp .k{font-size:12.5px;color:var(--muted)}
+.cmp .d{font:600 20px/1.2 var(--mono);font-variant-numeric:tabular-nums}
+.cmp .d.up{color:var(--good)} .cmp .d.down{color:var(--warn)}
+.cmp .fromto{font:400 12px var(--mono);color:var(--muted)}
+.sources{font-size:12.5px;color:var(--muted);line-height:1.6}
+.sources a{color:var(--accent)}
+.empty{padding:28px 18px;color:var(--muted)}
+
+.tabs{display:inline-flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:20px;max-width:100%}
+.tabs button{border:0;background:transparent;color:var(--muted);font:600 14px/1 var(--sans);padding:11px 16px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.tabs button:hover:not([aria-selected="true"]){color:var(--ink)}
+.cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;background:var(--accent-soft);border:1px solid var(--line);border-radius:14px}
+.cta p{margin:0;font-size:14px}
+.primary{border:0;background:var(--accent);color:var(--accent-ink);font:600 14.5px/1 var(--sans);padding:13px 18px;border-radius:10px;cursor:pointer}
+.primary:disabled{opacity:.6;cursor:progress}
+.primary.sm{padding:10px 14px;font-size:13.5px}
+.ghost{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 13.5px/1 var(--sans);padding:10px 14px;border-radius:10px;cursor:pointer}
+.ghost:hover{border-color:var(--accent);color:var(--accent)}
+fieldset.group-f{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+fieldset.group-f legend{margin-bottom:10px;padding:0}
+.inp{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted);min-width:0}
+.inp em{font-style:normal;opacity:.75}
+.inp input,.inp textarea{font:500 14.5px/1.4 var(--sans);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:10px 11px;width:100%;resize:vertical}
+.inp input:focus,.inp textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:420px){.two{grid-template-columns:1fr}}
+.sample{margin:0;font-size:12.5px;background:var(--warn-soft);color:var(--warn);padding:8px 10px;border-radius:8px}
+.err{margin:0;font-size:13px;color:var(--warn);background:var(--warn-soft);padding:10px 12px;border-radius:8px}
+.lettertools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.btns{display:flex;gap:8px}
+.paper{background:#FFFFFF;color:#1B1F1E;border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow);padding:clamp(22px,5vw,56px);font:14.5px/1.65 "IBM Plex Sans",Georgia,serif;min-height:400px}
+.paper .lh{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:2px solid #0F6E5C;padding-bottom:14px;margin-bottom:22px}
+.paper .lh b{font:700 20px/1.2 "Bricolage Grotesque",sans-serif;color:#0F6E5C}
+.paper .lh span{font-size:12.5px;color:#55605D;white-space:pre-line;text-align:right}
+.paper .meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13.5px;margin-bottom:18px}
+.paper h3.subj{font:600 15px/1.4 "IBM Plex Sans",sans-serif;margin:18px 0 12px;text-decoration:underline;text-underline-offset:3px}
+.paper ol{padding-left:22px;margin:12px 0}
+.paper ol li{margin-bottom:10px}
+.paper ol li b{display:block}
+.paper .sig{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-top:36px}
+.paper .sig div{min-width:200px}
+.paper .line{border-top:1px solid #9AA5A2;margin-top:44px;padding-top:6px;font-size:13px}
+.paper .annex{break-before:page;margin-top:40px;padding-top:24px;border-top:1px dashed #C9D2CF}
+.paper .annex h4{font:600 15px/1.3 "IBM Plex Sans",sans-serif;margin:0 0 4px}
+.paper .annex p{margin:0 0 12px;font-size:12.5px;color:#55605D}
+.paper table{font-size:13px;margin-bottom:10px}
+.paper th,.paper td{padding:7px 10px;border-top:1px solid #DCE3E0;color:#1B1F1E}
+.paper th{background:#F1F4F3;color:#55605D}
+.paper tr.total td{background:#F1F4F3;font-weight:600}
+.paper .muted{color:#7A8683}
+.paper .ph{color:#7A8683;text-align:center;padding:60px 10px}
+@media print{
+  @page{size:A4;margin:16mm}
+  body{background:#fff}
+  .wrap{padding:0;max-width:none}
+  header.top,.tabs,#view-structure,#lform,.lettertools{display:none!important}
+  #view-letter .grid{display:block}
+  .paper{border:0;box-shadow:none;padding:0;min-height:0}
+}
+.toplinks{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;font-size:14px}
+.toplinks a{color:var(--muted);text-decoration:none}
+.toplinks a:hover{color:var(--ink)}
+.toplinks a.plink{color:var(--accent);font-weight:600}
+.unlock{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.unlock-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.unlock-row input{flex:1 1 220px;min-width:0;font:500 14px/1 var(--mono);color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:11px;text-transform:uppercase}
+.unlock-row input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.unlock .hint a{color:var(--accent)}
+.unlocked{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:14px}
+.linkbtn{border:0;background:none;color:var(--accent);font:500 13.5px var(--sans);cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px}
+.pill{font:600 10.5px/1 var(--sans);text-transform:uppercase;letter-spacing:.07em;padding:4px 7px;border-radius:5px}
+.btns button:disabled{opacity:.5;cursor:not-allowed}
+.paper{position:relative;overflow:hidden}
+.paper.locked::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='200'%3E%3Ctext x='20' y='120' transform='rotate(-24 160 100)' font-family='Arial' font-size='26' font-weight='700' fill='%230F6E5C' fill-opacity='0.10'%3EPREVIEW %C2%B7 ctcfix.org%3C/text%3E%3C/svg%3E")}
+footer.site{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;font-size:13px;color:var(--muted)}
+footer.site nav{display:flex;flex-wrap:wrap;gap:6px 16px}
+footer.site a{color:var(--muted)}
+@media print{.unlock,footer.site{display:none!important}.paper.locked::after{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<!--HEAD-END-->
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">CF</div>
+      <div>
+        <h1>CTCfix</h1>
+        <p class="sub">Build a salary structure that meets the new Labour Codes, with state PT and LWF.</p>
+      </div>
+    </div>
+    <div class="toplinks">
+      <a href="me.html">For employees</a>
+      <a href="pricing.html" class="plink">Pricing</a>
+      <a href="contact.html">Contact</a>
+      <div class="asof" id="asof">Rates as of 26 Sep 2026</div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Tools">
+    <button type="button" role="tab" id="tab-structure" aria-controls="view-structure" aria-selected="true">Salary structure</button>
+    <button type="button" role="tab" id="tab-letter" aria-controls="view-letter" aria-selected="false">Offer letter</button>
+  </nav>
+
+  <section id="view-structure" role="tabpanel" aria-labelledby="tab-structure">
+  <div class="grid">
+    <form class="panel" id="form" autocomplete="off">
+      <div class="field">
+        <span class="label" id="lbl-state">State of work</span>
+        <div class="seg states" role="group" aria-labelledby="lbl-state" id="state"></div>
+        <span class="statename" id="statename"></span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="ctc">Annual CTC</label>
+        <div class="ctc"><span>₹</span><input id="ctc" inputmode="numeric" value="6,00,000" aria-describedby="ctc-words"></div>
+        <p class="hint" id="ctc-words"></p>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="field">
+        <span class="label" id="lbl-gender">Employee</span>
+        <div class="seg" role="group" aria-labelledby="lbl-gender" id="gender">
+          <button type="button" data-v="M">Male</button><button type="button" data-v="F">Female</button>
+        </div>
+        <p class="hint" id="gender-hint">Changes professional tax only in Maharashtra.</p>
+      </div>
+
+      <div class="field">
+        <span class="label" id="lbl-city">HRA</span>
+        <div class="seg" role="group" aria-labelledby="lbl-city" id="metro">
+          <button type="button" data-v="1">Metro · 50%</button><button type="button" data-v="0">Non-metro · 40%</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="label" id="lbl-pf">Provident Fund</span>
+        <div class="seg" role="group" aria-labelledby="lbl-pf" id="pf">
+          <button type="button" data-v="capped">₹15,000 cap</button><button type="button" data-v="uncapped">Full basic</button><button type="button" data-v="none">Not covered</button>
+        </div>
+      </div>
+
+      <label class="switch" for="grat">
+        <span><span class="statename">Gratuity inside CTC</span><br><span class="hint">4.81% of wages set aside monthly</span></span>
+        <input type="checkbox" id="grat" checked>
+      </label>
+
+      <div class="divider"></div>
+
+      <div class="field">
+        <div class="rangehead"><label class="label" for="oldbasic">Current basic, % of gross</label><b id="oldbasic-v">40%</b></div>
+        <input type="range" id="oldbasic" min="20" max="60" step="5" value="40">
+        <p class="hint">Used to compare your existing structure with the new one.</p>
+      </div>
+    </form>
+
+    <main class="results" id="results" aria-live="polite"></main>
+  </div>
+  </section>
+
+  <section id="view-letter" role="tabpanel" aria-labelledby="tab-letter" hidden>
+  <div class="grid">
+    <form class="panel" id="lform" autocomplete="off">
+      <p class="sample" id="sample-note">Example details are filled in. Replace them with yours.</p>
+      <div class="field">
+        <span class="label" id="lbl-ltype">Letter</span>
+        <div class="seg" role="group" aria-labelledby="lbl-ltype" id="ltype">
+          <button type="button" data-v="offer">Offer letter</button><button type="button" data-v="appointment">Appointment letter</button>
+        </div>
+      </div>
+      <fieldset class="group-f">
+        <legend class="label">Company</legend>
+        <label class="inp"><span>Company name</span><input id="co-name" required></label>
+        <label class="inp"><span>Registered address</span><textarea id="co-addr" rows="2" required></textarea></label>
+        <div class="two">
+          <label class="inp"><span>Signatory</span><input id="co-sig" required></label>
+          <label class="inp"><span>Title</span><input id="co-title" required></label>
+        </div>
+      </fieldset>
+      <fieldset class="group-f">
+        <legend class="label">Employee</legend>
+        <label class="inp"><span>Full name</span><input id="em-name" required></label>
+        <label class="inp"><span>Designation</span><input id="em-desig" required></label>
+        <div class="two">
+          <label class="inp"><span>Date of joining</span><input id="em-join" type="date" required></label>
+          <label class="inp"><span>Work location</span><input id="em-loc" required></label>
+        </div>
+      </fieldset>
+      <fieldset class="group-f">
+        <legend class="label">Terms</legend>
+        <div class="seg" role="group" aria-label="Employment type" id="etype">
+          <button type="button" data-v="permanent">Permanent</button><button type="button" data-v="fixed-term">Fixed-term</button>
+        </div>
+        <label class="inp" id="end-wrap" hidden><span>Contract end date</span><input id="em-end" type="date"></label>
+        <div class="two">
+          <label class="inp"><span>Probation, months</span><input id="t-prob" type="number" min="0" max="12" step="1" inputmode="numeric"></label>
+          <label class="inp"><span>Notice, days</span><input id="t-notice" type="number" min="0" max="180" step="1" inputmode="numeric"></label>
+        </div>
+        <label class="inp"><span>Additional terms <em>optional</em></span><textarea id="t-extra" rows="2" placeholder="e.g. Company laptop provided; returned on exit"></textarea></label>
+      </fieldset>
+      <p class="hint" id="lctx"></p>
+      <button type="submit" class="primary" id="draft-btn">Draft letter</button>
+      <p class="err" id="lerr" role="alert" hidden></p>
+    </form>
+
+    <main class="results">
+      <div class="unlock" id="unlock">
+        <form id="unlock-form" class="unlock-row" autocomplete="off">
+          <label class="label" for="code-in">Access code</label>
+          <input id="code-in" placeholder="CTCFIX-S2610-XXXX-XXXXXXXX" spellcheck="false" autocapitalize="characters">
+          <button type="submit" class="primary sm" id="unlock-btn">Unlock</button>
+        </form>
+        <p class="hint" id="unlock-msg">Letters are in preview. <a href="pricing.html">Get a code for ₹399/month</a> to draft with Claude and download PDFs.</p>
+        <div class="unlocked" id="unlocked" hidden>
+          <span class="pill ok">Unlocked</span><span id="plan-line"></span>
+          <button type="button" class="linkbtn" id="change-code">Change code</button>
+        </div>
+      </div>
+      <div class="lettertools">
+        <span class="hint" id="lsource">Preview updates when you draft the letter.</span>
+        <div class="btns">
+          <button type="button" class="ghost" id="copy-btn">Copy text</button>
+          <button type="button" class="primary sm" id="pdf-btn">Download PDF</button>
+        </div>
+      </div>
+      <article class="paper" id="paper" aria-live="polite"></article>
+    </main>
+  </div>
+  </section>
+  <footer class="site">
+    <span>© 2026 CTCfix · Operated by Satyajit Tripathy, sole proprietor, Bengaluru</span>
+    <nav><a href="pricing.html">Pricing</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a><a href="refund.html">Refunds &amp; cancellation</a><a href="contact.html">Contact</a></nav>
+  </footer>
+</div>
+
+<script src="engine.js"></script>
+<script src="letter-template.js"></script>
+<script>
+(function(){
+  const fmt = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
+  const $ = (id) => document.getElementById(id);
+  const state = { state:"KA", annualCTC:600000, gender:"M", metro:true, pfMode:"capped", gratuityInCTC:true, oldBasic:40 };
+  const codes = ["KA","MH","TG","HR","TN"];
+
+  $("state").innerHTML = codes.map(c => `<button type="button" data-v="${c}" title="${RULES.states[c].name}">${c}</button>`).join("");
+  $("chips").innerHTML = [[300000,"3 L"],[600000,"6 L"],[1200000,"12 L"],[2500000,"25 L"]]
+    .map(([v,l]) => `<button type="button" class="chip" data-v="${v}">₹${l}</button>`).join("");
+  $("asof").textContent = "Rates as of " + RULES.asOf;
+
+  function words(n){
+    if (n >= 1e7) return (n/1e7).toFixed(2).replace(/\.?0+$/,"") + " crore a year";
+    if (n >= 1e5) return (n/1e5).toFixed(2).replace(/\.?0+$/,"") + " lakh a year";
+    return n ? n.toLocaleString("en-IN") + " a year" : "Enter the annual cost to company";
+  }
+
+  function bindSeg(id, key, parse){
+    $(id).addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-v]"); if (!b) return;
+      state[key] = parse ? parse(b.dataset.v) : b.dataset.v; render();
+    });
+  }
+  bindSeg("state","state"); bindSeg("gender","gender"); bindSeg("metro","metro", v => v === "1"); bindSeg("pf","pfMode");
+  $("chips").addEventListener("click", (e) => { const b = e.target.closest("button[data-v]"); if (!b) return; state.annualCTC = +b.dataset.v; $("ctc").value = state.annualCTC.toLocaleString("en-IN"); render(); });
+  $("ctc").addEventListener("input", (e) => {
+    const digits = e.target.value.replace(/\D/g,"").slice(0,10);
+    state.annualCTC = +digits || 0;
+    e.target.value = digits ? (+digits).toLocaleString("en-IN") : "";
+    render();
+  });
+  $("grat").addEventListener("change", (e) => { state.gratuityInCTC = e.target.checked; render(); });
+  $("oldbasic").addEventListener("input", (e) => { state.oldBasic = +e.target.value; render(); });
+  $("form").addEventListener("submit", (e) => e.preventDefault());
+
+  function baseInput(){ return { state:state.state, annualCTC:state.annualCTC, gender:state.gender, metro:state.metro, pfMode:state.pfMode, gratuityInCTC:state.gratuityInCTC }; }
+
+  function press(id, val){ $(id).querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === String(val)))); }
+
+  function row(label, m, a, cls = "", note = ""){
+    return `<tr class="${cls}"><td>${label}${note ? `<small>${note}</small>` : ""}</td><td class="n">${m}</td><td class="n">${a}</td></tr>`;
+  }
+
+  function render(){
+    press("state", state.state); press("gender", state.gender); press("metro", state.metro ? "1" : "0"); press("pf", state.pfMode);
+    $("statename").textContent = RULES.states[state.state].name;
+    $("gender-hint").textContent = state.state === "MH" ? "Maharashtra exempts women earning up to ₹25,000 a month from PT." : "Changes professional tax only in Maharashtra.";
+    $("ctc-words").textContent = "₹" + words(state.annualCTC);
+    $("oldbasic-v").textContent = state.oldBasic + "%";
+
+    const out = $("results");
+    if (state.annualCTC < 60000) { out.innerHTML = `<div class="card empty">Enter an annual CTC of at least ₹60,000 to build a structure.</div>`; return; }
+
+    const base = baseInput();
+    const r = calculate(base);
+    const old = calculate({ ...base, basicRule:{ type:"pctGross", pct: state.oldBasic/100 } });
+    const m = r.monthly, a = r.annual;
+    const tn = state.state === "TN" && m.pt > 0;
+    const hasFeb = r.pt.feb !== r.pt.monthly && state.state !== "TN";
+
+    const rows = [
+      `<tr class="group"><td colspan="3">Earnings</td></tr>`,
+      row("Basic + DA", fmt(m.basic), fmt(a.basic), "", "Set at 50% of total pay"),
+      row("House rent allowance", fmt(m.hra), fmt(a.hra), "", (state.metro ? "50%" : "40%") + " of basic"),
+      row("Special allowance", fmt(m.special), fmt(a.special)),
+      row("Gross salary", fmt(m.gross), fmt(a.gross), "total"),
+      `<tr class="group"><td colspan="3">Employer contributions</td></tr>`,
+      state.pfMode !== "none" ? row("Employer PF", fmt(m.erPF), fmt(a.erPF), "", "12%") : "",
+      r.esiOn ? row("Employer ESI", fmt(m.erESI), fmt(a.erESI), "", "3.25% of gross") : "",
+      state.gratuityInCTC ? row("Gratuity provision", fmt(m.gratuity), fmt(a.gratuity), "", "15/26 of wages per year") : "",
+      row("Cost to company", fmt(m.ctc), fmt(a.ctc), "total"),
+      `<tr class="group"><td colspan="3">Employee deductions</td></tr>`,
+      state.pfMode !== "none" ? row("Employee PF", `<span class="neg">${fmt(m.eePF)}</span>`, `<span class="neg">${fmt(a.eePF)}</span>`, "", "12%") : "",
+      r.esiOn ? row("Employee ESI", `<span class="neg">${fmt(m.eeESI)}</span>`, `<span class="neg">${fmt(a.eeESI)}</span>`, "", "0.75% of gross") : "",
+      row("Professional tax", m.pt ? `<span class="neg">${fmt(m.pt)}</span>${tn ? "*" : ""}` : "₹0", a.pt ? `<span class="neg">${fmt(a.pt)}</span>` : "₹0", "", r.pt.note),
+      row("Labour welfare fund", r.lwf.employeeAnnual && state.state === "HR" ? `<span class="neg">${fmt(r.lwf.employeeAnnual/12)}</span>` : "—", a.lwf ? `<span class="neg">${fmt(a.lwf)}</span>` : "₹0", "", r.lwf.note),
+      row("Take-home, before income tax", fmt(m.net), fmt(a.net), "net"),
+    ].join("");
+
+    const foot = [
+      hasFeb ? `February take-home is ${fmt(m.net - (r.pt.feb - r.pt.monthly))} because PT rises to ₹${r.pt.feb}.` : "",
+      tn ? `*Tamil Nadu PT is ₹${r.pt.halfYearly} per half-year; the monthly figure is an average.` : "",
+      r.roundingDiff ? `Annual CTC is not divisible by 12, so ₹${Math.abs(r.roundingDiff)} is settled in annual special allowance.` : "",
+      `Also budget outside CTC: PF admin ${fmt(r.outside.pfAdmin)}/month, EDLI ${fmt(r.outside.edli)}/month, employer LWF ${fmt(r.outside.lwfEmployerAnnual)}/year.`,
+    ].filter(Boolean).map(t => `<span>${t}</span>`).join("");
+
+    const checks = r.checks.map(c => {
+      const kind = c.warn ? "warn" : c.info ? "info" : c.ok ? "ok" : "warn";
+      const label = kind === "ok" ? "Compliant" : kind === "warn" ? "Action" : "Note";
+      return `<div class="check"><h3><span class="pill ${kind}">${label}</span>${c.title}</h3><p>${c.detail}</p></div>`;
+    }).join("");
+
+    const diff = (n, o) => { const d = Math.round(n - o); return { d, cls: d > 0 ? "up" : d < 0 ? "down" : "", txt: (d > 0 ? "+" : d < 0 ? "−" : "") + fmt(Math.abs(d)) }; };
+    const dNet = diff(m.net, old.monthly.net), dPF = diff(m.eePF + m.erPF, old.monthly.eePF + old.monthly.erPF);
+    const gNew = r.codeWages * 15 / 26, gOld = old.monthly.basic * 15 / 26, dG = diff(gNew, gOld);
+    dPF.cls = dPF.d > 0 ? "up" : dPF.d < 0 ? "down" : ""; // more PF = more retirement savings
+
+    out.innerHTML = `
+      <section class="summary" aria-label="Summary">
+        <div class="stat"><span class="label">Monthly take-home</span><span class="v accent">${fmt(m.net)}</span><span class="s">Before income tax</span></div>
+        <div class="stat"><span class="label">Monthly CTC</span><span class="v">${fmt(m.ctc)}</span><span class="s">${fmt(a.ctc)} a year</span></div>
+        <div class="stat"><span class="label">Wages under the Code</span><span class="v">${fmt(r.codeWages)}</span><span class="s">${(100 - r.exclusionPct*100).toFixed(1)}% of total pay · base for gratuity</span></div>
+      </section>
+
+      <section class="card">
+        <div class="cardhead"><h2>Salary structure</h2><p>${r.stateName} · ${state.metro ? "Metro" : "Non-metro"} · PF ${state.pfMode === "capped" ? "capped at ₹15,000" : state.pfMode === "uncapped" ? "on full basic" : "not covered"}</p></div>
+        <div class="tablewrap"><table>
+          <thead><tr><th>Component</th><th class="n">Monthly</th><th class="n">Annual</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>
+        <div class="foot">${foot}</div>
+      </section>
+
+      <section class="card">
+        <div class="cardhead"><h2>Compliance checks</h2><p>${r.checks.filter(c => c.warn).length ? "Action needed: " + r.checks.filter(c => c.warn).length : "No action items"}</p></div>
+        <div class="checks">${checks}</div>
+      </section>
+
+      <section class="card">
+        <div class="cardhead"><h2>Your current structure vs this one</h2><p>Same CTC, basic at ${state.oldBasic}% of gross under the old rules</p></div>
+        <div class="compare">
+          <div class="cmp"><span class="k">Monthly take-home</span><span class="d ${dNet.cls}">${dNet.txt}</span><span class="fromto">${fmt(old.monthly.net)} → ${fmt(m.net)}</span></div>
+          <div class="cmp"><span class="k">PF, both shares, per month</span><span class="d ${dPF.cls}">${dPF.txt}</span><span class="fromto">${fmt(old.monthly.eePF + old.monthly.erPF)} → ${fmt(m.eePF + m.erPF)}</span></div>
+          <div class="cmp"><span class="k">Gratuity per year of service</span><span class="d ${dG.cls}">${dG.txt}</span><span class="fromto">${fmt(gOld)} → ${fmt(gNew)}</span></div>
+        </div>
+      </section>
+
+      <div class="cta"><p><b>Next:</b> turn this structure into an offer letter with Annexure A.</p><button type="button" class="primary sm" id="to-letter">Create offer letter</button></div>
+
+      <p class="sources" id="sources-p">Built on the Code on Wages s.2(y) and the Code on Social Security, in force from 21 Nov 2025. PF ceiling ₹15,000; ESI ceiling ₹21,000 at 0.75% / 3.25%. PT and LWF use each state's current slabs; Haryana LWF follows the 1 Jan 2026 revision (0.2%, capped at ₹35 employee / ₹70 employer). Minimum wage and income tax are not calculated yet. Check figures with your payroll adviser before issuing letters.</p>
+    `;
+  }
+
+  // ---------- Tabs ----------
+  function showTab(name){
+    const letter = name === "letter";
+    $("view-structure").hidden = letter; $("view-letter").hidden = !letter;
+    $("tab-structure").setAttribute("aria-selected", String(!letter));
+    $("tab-letter").setAttribute("aria-selected", String(letter));
+    if (letter) { syncLetterContext(); renderPaper(); }
+    window.scrollTo({ top: 0 });
+  }
+  $("tab-structure").addEventListener("click", () => showTab("structure"));
+  $("tab-letter").addEventListener("click", () => showTab("letter"));
+  $("results").addEventListener("click", (e) => { if (e.target.closest("#to-letter")) showTab("letter"); });
+
+  // ---------- Offer letter ----------
+  const L = { letterType: "offer", employmentType: "permanent", draft: null, source: "", note: "" };
+  const A = { code: "", valid: false, plan: "", validUntil: "" };
+  const esc = (x) => String(x ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const v = (id) => $(id).value.trim();
+  const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  const plusDays = (n) => { const d = new Date(); d.setDate(d.getDate() + n); return d; };
+  const longDate = (val) => val ? new Date(val + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "";
+  const cities = { KA: "Bengaluru", MH: "Mumbai", TG: "Hyderabad", HR: "Gurugram", TN: "Chennai" };
+  const companyKeys = ["co-name", "co-addr", "co-sig", "co-title"];
+
+  const defaults = { "co-name": "Kaveri Foods Pvt Ltd", "co-addr": "12 Mysore Road, Rajarajeshwari Nagar, Bengaluru 560098",
+    "co-sig": "Anita Rao", "co-title": "Director", "em-name": "Ravi Kumar", "em-desig": "Sales Executive",
+    "em-join": iso(plusDays(14)), "em-end": iso(plusDays(14 + 364)), "t-prob": "3", "t-notice": "30" };
+  for (const [id, val] of Object.entries(defaults)) $(id).value = val;
+  $("em-loc").value = cities[state.state];
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem("paykit.company") || "null"); } catch (e) { saved = null; }
+  if (saved) { companyKeys.forEach((k) => { if (saved[k]) $(k).value = saved[k]; }); }
+
+  function syncLetterContext(){
+    const loc = $("em-loc");
+    if (Object.values(cities).includes(loc.value)) loc.value = cities[state.state];
+    $("lctx").textContent = "Uses the structure you built: " + fmt(state.annualCTC) + " CTC in " + RULES.states[state.state].name + ". Change it on the Salary structure tab.";
+  }
+
+  function pressL(){
+    press("ltype", L.letterType); press("etype", L.employmentType);
+    $("end-wrap").hidden = L.employmentType !== "fixed-term";
+    $("draft-btn").textContent = L.letterType === "offer" ? "Draft offer letter" : "Draft appointment letter";
+  }
+  function segL(id, key){
+    $(id).addEventListener("click", (e) => { const b = e.target.closest("button[data-v]"); if (!b) return; L[key] = b.dataset.v; L.draft = null; pressL(); renderPaper(); });
+  }
+  segL("ltype", "letterType"); segL("etype", "employmentType"); pressL();
+
+  $("lform").addEventListener("input", () => { $("sample-note").hidden = true; L.draft = null; renderPaper(); });
+
+  function collect(){
+    const r = calculate(baseInput());
+    return {
+      payload: {
+        company: { name: v("co-name"), address: v("co-addr"), signatoryName: v("co-sig"), signatoryTitle: v("co-title") },
+        employee: { name: v("em-name"), designation: v("em-desig"), joiningDate: longDate(v("em-join")), location: v("em-loc") },
+        terms: { letterType: L.letterType, employmentType: L.employmentType,
+          endDate: L.employmentType === "fixed-term" ? longDate(v("em-end")) : "",
+          probationMonths: parseInt(v("t-prob") || "0", 10), noticeDays: parseInt(v("t-notice") || "0", 10), extraTerms: v("t-extra") },
+        annualCTC: state.annualCTC, stateName: r.stateName, pfCovered: state.pfMode !== "none", esiCovered: r.esiOn, gratuityInCTC: state.gratuityInCTC,
+      },
+      r,
+    };
+  }
+
+  const num = (n) => Math.round(n).toLocaleString("en-IN");
+  function annexure(p, r){
+    const m = r.monthly, a = r.annual;
+    const tr = (label, mv, av, cls) => `<tr class="${cls || ""}"><td>${label}</td><td class="n">${mv}</td><td class="n">${av}</td></tr>`;
+    return `<section class="annex">
+      <h4>Annexure A: Compensation</h4>
+      <p>${esc(p.employee.name)} · ${esc(p.employee.designation)} · ${esc(r.stateName)} · effective ${esc(p.employee.joiningDate)}</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Component</th><th class="n">Monthly (₹)</th><th class="n">Annual (₹)</th></tr></thead>
+        <tbody>
+          ${tr("Basic + DA", num(m.basic), num(a.basic))}
+          ${tr("House rent allowance", num(m.hra), num(a.hra))}
+          ${tr("Special allowance", num(m.special), num(a.special))}
+          ${tr("Gross salary", num(m.gross), num(a.gross), "total")}
+          ${state.pfMode !== "none" ? tr("Employer contribution to PF", num(m.erPF), num(a.erPF)) : ""}
+          ${r.esiOn ? tr("Employer contribution to ESI", num(m.erESI), num(a.erESI)) : ""}
+          ${state.gratuityInCTC ? tr("Gratuity (provision)", num(m.gratuity), num(a.gratuity)) : ""}
+          ${tr("Cost to company", num(m.ctc), num(a.ctc), "total")}
+          ${state.pfMode !== "none" ? tr("Less: employee PF", num(m.eePF), num(a.eePF)) : ""}
+          ${r.esiOn ? tr("Less: employee ESI", num(m.eeESI), num(a.eeESI)) : ""}
+          ${tr("Less: professional tax", num(m.pt), num(a.pt))}
+          ${a.lwf ? tr("Less: labour welfare fund", state.state === "HR" ? num(a.lwf / 12) : "—", num(a.lwf)) : ""}
+          ${tr("Take-home before income tax", num(m.net), num(a.net), "total")}
+        </tbody>
+      </table></div>
+      <p class="muted">Basic + DA is 50% of total pay, in line with the Code on Wages, 2019. Gratuity is payable as per the Code on Social Security, 2020 and is not paid monthly. Income tax is deducted at source as applicable. Professional tax and labour welfare fund follow ${esc(r.stateName)} rules.</p>
+    </section>`;
+  }
+
+  function renderPaper(){
+    if ($("view-letter").hidden) return;
+    const { payload: p, r } = collect();
+    const d = L.draft || PayKitLetter.templateDraft(p);
+    const offer = p.terms.letterType === "offer";
+    const initials = p.employee.name.split(/\s+/).map((w) => w[0] || "").join("").toUpperCase().slice(0, 3) || "EMP";
+    const today = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+    $("paper").innerHTML = `
+      <div class="lh"><b>${esc(p.company.name)}</b><span>${esc(p.company.address)}</span></div>
+      <div class="meta"><span>Ref: HR/${new Date().getFullYear()}/${esc(initials)}</span><span>${today}</span></div>
+      <p>To<br><b>${esc(p.employee.name)}</b><br>${esc(p.employee.location)}</p>
+      <h3 class="subj">${esc(d.subject)}</h3>
+      <p>${esc(d.salutation)}</p>
+      <p>${esc(d.opening)}</p>
+      <ol>${d.clauses.map((c) => `<li><b>${esc(c.heading)}</b>${esc(c.text)}</li>`).join("")}</ol>
+      <p>${esc(d.closing)}</p>
+      <div class="sig">
+        <div>For <b>${esc(p.company.name)}</b><div class="line">${esc(p.company.signatoryName)}<br>${esc(p.company.signatoryTitle)}</div></div>
+        ${offer ? `<div>Accepted by<div class="line">${esc(p.employee.name)}<br>Signature and date</div></div>` : ""}
+      </div>
+      ${annexure(p, r)}`;
+    $("paper").classList.toggle("locked", !A.valid);
+    $("copy-btn").disabled = !A.valid; $("pdf-btn").disabled = !A.valid;
+    $("copy-btn").title = $("pdf-btn").title = A.valid ? "" : "Unlock with an access code first";
+    if (!A.valid) { $("lsource").textContent = "Preview only. Unlock with an access code to draft with Claude, copy and download."; return; }
+    $("lsource").textContent = L.draft
+      ? (L.source === "claude" ? "Drafted by Claude. Salary figures come from the calculator, not the AI." : (L.note || "Standard template."))
+      : "Live preview from the standard template. Draft the letter for Claude's version.";
+  }
+
+  $("lform").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const { payload } = collect();
+    const missing = [["co-name","company name"],["co-addr","company address"],["co-sig","signatory"],["co-title","signatory title"],["em-name","employee name"],["em-desig","designation"],["em-join","date of joining"],["em-loc","work location"]]
+      .filter(([id]) => !v(id)).map(([, n]) => n);
+    if (L.employmentType === "fixed-term" && !v("em-end")) missing.push("contract end date");
+    const err = $("lerr");
+    if (missing.length) { err.textContent = "Fill in: " + missing.join(", ") + "."; err.hidden = false; return; }
+    err.hidden = true;
+    if (!A.valid) { err.innerHTML = 'Enter your access code above to draft letters. <a href="pricing.html">Get one for ₹399/month</a>.'; err.hidden = false; $("code-in").focus(); return; }
+    try { localStorage.setItem("paykit.company", JSON.stringify(Object.fromEntries(companyKeys.map((k) => [k, $(k).value])))); } catch (e2) {}
+    const btn = $("draft-btn"), label = btn.textContent;
+    btn.disabled = true; btn.textContent = "Drafting…";
+    try {
+      const res = await fetch("/api/letter", { method: "POST", headers: { "content-type": "application/json", "x-access-code": A.code }, body: JSON.stringify(payload) });
+      const data = await res.json().catch(() => null);
+      if (!data) throw new Error("offline");
+      if (res.status === 402) { setAccess({ valid: false }, data.error); err.textContent = data.error; err.hidden = false; return; }
+      if (!res.ok) { err.textContent = (data.details || [data.error]).join("; "); err.hidden = false; return; }
+      L.draft = data.draft; L.source = data.source; L.note = data.note || "";
+    } catch (e3) {
+      L.draft = PayKitLetter.templateDraft(payload); L.source = "template";
+      L.note = "The drafting service is not connected here, so the standard template was used.";
+    } finally {
+      btn.disabled = false; btn.textContent = label;
+    }
+    renderPaper();
+  });
+
+  // ---------- Access codes ----------
+  function setAccess(info, message){
+    A.valid = !!info.valid; A.plan = info.plan || ""; A.validUntil = info.validUntil || "";
+    if (!A.valid) { A.code = ""; try { localStorage.removeItem("ctcfix.code"); } catch (e) {} }
+    $("unlock-form").hidden = A.valid; $("unlocked").hidden = !A.valid;
+    const until = A.validUntil ? new Date(A.validUntil + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }) : "";
+    $("plan-line").textContent = A.valid ? `${A.plan} plan · valid until ${until}` : "";
+    const msg = $("unlock-msg");
+    if (A.valid) msg.hidden = true;
+    else { msg.hidden = false; msg.innerHTML = message ? `${esc(message)} <a href="pricing.html">See plans</a>` : 'Letters are in preview. <a href="pricing.html">Get a code for ₹399/month</a> to draft with Claude and download PDFs.'; }
+    renderPaper();
+  }
+  async function checkCode(code){
+    const res = await fetch("/api/verify", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ code }) });
+    const data = await res.json();
+    if (data.valid && data.plan === "Individual") { setAccess({ valid: false }, "This is an individual code for comparing offers. Offer letters need an SME or CA plan."); return false; }
+    if (data.valid) { A.code = code; try { localStorage.setItem("ctcfix.code", code); } catch (e) {} }
+    setAccess(data, data.valid ? "" : data.reason);
+    return data.valid;
+  }
+  $("unlock-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const code = $("code-in").value.trim().toUpperCase();
+    if (!code) { $("code-in").focus(); return; }
+    const b = $("unlock-btn"); b.disabled = true; b.textContent = "Checking…";
+    try { await checkCode(code); }
+    catch (e2) { setAccess({ valid: false }, "Couldn't reach CTCfix to check the code. Check your connection and try again."); }
+    finally { b.disabled = false; b.textContent = "Unlock"; }
+  });
+  $("change-code").addEventListener("click", () => { setAccess({ valid: false }); $("code-in").value = ""; $("code-in").focus(); });
+  (async () => {
+    let saved = ""; try { saved = localStorage.getItem("ctcfix.code") || ""; } catch (e) {}
+    if (saved) { $("code-in").value = saved; try { await checkCode(saved); } catch (e) { setAccess({ valid: false }); } }
+    else setAccess({ valid: false });
+  })();
+
+  $("pdf-btn").addEventListener("click", () => { if (!A.valid) return; renderPaper(); window.print(); });
+  $("copy-btn").addEventListener("click", async () => {
+    if (!A.valid) return;
+    const text = $("paper").innerText;
+    const b = $("copy-btn");
+    try { await navigator.clipboard.writeText(text); b.textContent = "Copied"; }
+    catch (e4) { const range = document.createRange(); range.selectNodeContents($("paper")); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range); b.textContent = "Selected. Press Ctrl+C"; }
+    setTimeout(() => { b.textContent = "Copy text"; }, 2000);
+  });
+  if (document.documentElement.dataset.preview === "1") $("pdf-btn").hidden = true;
+  if (location.hash === "#letter") showTab("letter");
+
+  render();
+})();
+</script>
+</body>
+</html>

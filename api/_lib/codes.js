@@ -1,9 +1,9 @@
 // Signed access codes. No database: a code carries its plan and expiry, and an HMAC signature
 // made with CODE_SECRET proves we issued it. Format: CTCFIX-<P><YYMM>-<RAND4>-<SIG8>
-//   P = S (SME plan) or C (CA plan); YYMM = last month the code is valid.
+//   P = S (SME plan), C (CA plan) or I (individual); YYMM = last month the code is valid.
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 
-const PLANS = { S: "SME", C: "CA" };
+const PLANS = { S: "SME", C: "CA", I: "Individual" };
 const ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no 0/O/1/I to avoid misreads over WhatsApp
 
 function sign(secret, body) {
@@ -18,7 +18,7 @@ function rand4() {
 // still gets a full month). Returns the code and its last valid day.
 export function issueCode(secret, plan, months, now = new Date()) {
   if (!secret) throw new Error("CODE_SECRET is not set");
-  if (!PLANS[plan]) throw new Error("plan must be S or C");
+  if (!PLANS[plan]) throw new Error("plan must be S, C or I");
   if (!Number.isInteger(months) || months < 1 || months > 24) throw new Error("months must be 1 to 24");
   const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + months, 1));
   const yymm = String(end.getUTCFullYear()).slice(2) + String(end.getUTCMonth() + 1).padStart(2, "0");
@@ -35,7 +35,7 @@ function describe(plan, yymm) {
 export function verifyCode(secret, input, now = new Date()) {
   if (!secret) return { valid: false, reason: "Access codes are not set up on the server yet." };
   const code = String(input || "").trim().toUpperCase().replace(/\s+/g, "");
-  const m = /^CTCFIX-([SC])(\d{4})-([A-Z0-9]{4})-([0-9A-F]{8})$/.exec(code);
+  const m = /^CTCFIX-([SCI])(\d{4})-([A-Z0-9]{4})-([0-9A-F]{8})$/.exec(code);
   if (!m) return { valid: false, reason: "That doesn't look like a CTCfix code. It starts with CTCFIX-." };
   const [, plan, yymm, rnd, sig] = m;
   const expected = Buffer.from(sign(secret, `${plan}${yymm}-${rnd}`));

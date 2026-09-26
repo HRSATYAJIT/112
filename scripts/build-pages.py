@@ -10,7 +10,7 @@ UPI = "7761830260@pthdfc"
 UPDATED = "26 September 2026"
 
 def shell(slug, title, desc, body, noindex=False):
-    links = [("index.html", "Calculator"), ("index.html#letter", "Offer letters"), ("pricing.html", "Pricing"), ("contact.html", "Contact")]
+    links = [("me.html", "For employees"), ("business.html", "For businesses"), ("pricing.html", "Pricing"), ("contact.html", "Contact")]
     cur, cta = ' aria-current="page"', ' class="cta"'
     nav = "".join(f'<a href="{h}"{cur if h == slug + ".html" else ""}{cta if h == "pricing.html" else ""}>{t}</a>' for h, t in links)
     return f"""<!doctype html>
@@ -36,12 +36,12 @@ def shell(slug, title, desc, body, noindex=False):
 </html>
 """
 
-def plan(name, price, who, feats, qr, amt, tag, featured=False):
+def plan(name, price, who, feats, qr, amt, tag, featured=False, unit="/month", step3="Get your access code within 2 hours (9 AM–9 PM IST) and enter it on the Offer letters tab.", anchor=None):
     lis = "".join(f"<li>{f}</li>" for f in feats)
     wa = f"https://wa.me/{WA}?text=" + ("Hi%2C%20I%20paid%20%E2%82%B9" + str(amt) + "%20for%20the%20CTCfix%20" + tag + "%20plan.%20Screenshot%20attached.%20Company%20name%3A%20")
     upi = f"upi://pay?pa={UPI}&pn=SATYAJIT%20TRIPATHY&am={amt}.00&cu=INR&tn=CTCfix%20{tag}%20plan"
-    return f"""<article class="card plan{' featured' if featured else ''}" id="{tag.lower()}">
-  <div class="phead"><span class="label">{name}</span><div class="price"><b>₹{price}</b><span>/month</span></div><p class="who">{who}</p></div>
+    return f"""<article class="card plan{' featured' if featured else ''}" id="{anchor or tag.lower()}">
+  <div class="phead"><span class="label">{name}</span><div class="price"><b>₹{price}</b><span>{unit}</span></div><p class="who">{who}</p></div>
   <ul class="feats">{lis}</ul>
   <div class="pay">
     <img src="{qr}" alt="UPI QR code to pay ₹{price} to {OWNER}" width="168" height="168">
@@ -49,15 +49,15 @@ def plan(name, price, who, feats, qr, amt, tag, featured=False):
       <ol>
         <li>Scan with any UPI app, or <a href="{upi}">tap to pay on your phone</a>. UPI ID <code>{UPI}</code>.</li>
         <li><a href="{wa}" target="_blank" rel="noopener">Send the payment screenshot on WhatsApp</a>.</li>
-        <li>Get your access code within 2 hours (9 AM–9 PM IST) and enter it on the Offer letters tab.</li>
+        <li>{step3}</li>
       </ol>
     </div>
   </div>
 </article>"""
 
 pricing_css = """<style>
-.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
-@media (max-width:900px){.plans{grid-template-columns:1fr}}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;align-items:start}
+.group{margin:32px 0 12px}
 .plan{padding:22px;display:flex;flex-direction:column;gap:16px}
 .plan.featured{border:2px solid var(--accent)}
 .price{display:flex;align-items:baseline;gap:4px;margin:8px 0 4px}
@@ -77,22 +77,32 @@ code{font:500 12.5px var(--mono);background:var(--surface-2);padding:2px 5px;bor
 </style>"""
 
 pricing = pricing_css + f"""
-<h1>Simple monthly plans. Cancel anytime.</h1>
-<p class="lede">The salary calculator is free for everyone. A plan unlocks offer and appointment letters drafted by Claude, with PDF download and a compliant Annexure A.</p>
+<h1>Simple plans for employees and businesses</h1>
+<p class="lede">Salary slip and offer checks are free for everyone. Pay only to compare your offer with peers, or to create offer letters for your company.</p>
+<h2 class="group">For employees</h2>
+<div class="plans">
+<article class="card plan free">
+  <div class="phead"><span class="label">Free</span><div class="price"><b>₹0</b></div><p class="who">For anyone with a salary slip or job offer</p></div>
+  <ul class="feats"><li>Salary slip check: PF, ESI, professional tax, 50% wage rule and arithmetic</li><li>Offer check: real take-home, variable pay and risky clauses</li><li>Ready messages to send HR</li><li>Peer salary list, read-only</li></ul>
+  <a class="btn ghost" href="me.html">Check my salary</a>
+</article>
+{plan("Compare my offer", "199", "One-time, for a salary negotiation", ["See where your CTC sits against peers in FMCG, E-commerce and BFSI, city by city", "Cited report figures plus anonymised shared offers", "A negotiation message ready to send", "Valid until the end of next month"], "upi-ind.svg", 199, "Individual", True, unit=" one-time", step3="Get your code within 2 hours (9 AM–9 PM IST) and enter it under Check my job offer.", anchor="individual")}
+</div>
+<h2 class="group">For businesses and CAs</h2>
 <div class="plans">
 <article class="card plan free">
   <div class="phead"><span class="label">Free</span><div class="price"><b>₹0</b></div><p class="who">For checking any salary structure</p></div>
   <ul class="feats"><li>Labour Code salary structure for Karnataka, Maharashtra, Telangana, Haryana and Tamil Nadu</li><li>PF, ESI, gratuity, professional tax and LWF</li><li>Compliance checks and old-vs-new comparison</li><li>Offer letter preview (watermarked)</li></ul>
-  <a class="btn ghost" href="index.html">Open the calculator</a>
+  <a class="btn ghost" href="business.html">Open the calculator</a>
 </article>
-{plan("SME", "399", "For one company's own hiring", ["Everything in Free", "Unlimited offer and appointment letters for your company", "Letters drafted by Claude, salary figures from the calculator", "PDF download and copy", "WhatsApp support"], "upi-sme.svg", 399, "SME", True)}
+{plan("SME", "399", "For one company's own hiring", ["Everything in Free", "Unlimited offer and appointment letters for your company", "Letters drafted by Claude, salary figures from the calculator", "PDF download and copy", "WhatsApp support"], "upi-sme.svg", 399, "SME")}
 {plan("CA and consultants", "2,299", "For CAs and HR consultants serving many clients", ["Everything in SME", "Use for any number of client companies", "Priority WhatsApp support, same business day"], "upi-ca.svg", 2299, "CA")}
 </div>
-<p class="note">Prices are in Indian rupees and are final. Each payment covers access until the end of the following calendar month. Access is personal to the paying business.</p>
+<p class="note">Prices are in Indian rupees and are final. Each payment covers access until the end of the following calendar month. Access is personal to the person or business that paid.</p>
 
 <section class="faq">
 <h2>Questions</h2>
-<h3>Why do I pay by UPI and get a code?</h3><p>Card payments and auto-renewal are coming soon. Until then, UPI is the fastest way to start today. Your code works immediately on the Offer letters tab.</p>
+<h3>Why do I pay by UPI and get a code?</h3><p>Card payments are coming soon. Until then, UPI is the fastest way to start today. Your code works as soon as you enter it.</p><h3>Where does the peer data come from?</h3><p>Figures from Randstad India's Annual Salary Trends Report 2024-25 (each row links to it), plus offers people choose to share anonymously, which we review before they appear.</p>
 <h3>Are the calculations checked?</h3><p>Rates for PF, ESI, gratuity, professional tax and labour welfare fund are verified as of 26 September 2026. Minimum wage and income tax are not calculated yet. Review figures with your payroll adviser before issuing letters.</p>
 <h3>Can I get a refund?</h3><p>Yes, within 7 days of your first payment. See the <a href="refund.html">refund policy</a>.</p>
 <h3>Do you need an invoice?</h3><p>Email <a href="mailto:{EMAIL}">{EMAIL}</a> with your business name and we'll send a payment receipt.</p>
@@ -103,11 +113,11 @@ terms = f"""<div class="prose">
 <p class="updated">Last updated {UPDATED}</p>
 <p>CTCfix (ctcfix.org) is operated by {OWNER}, a sole proprietor based in Bengaluru, Karnataka ("we", "us"). By using CTCfix you agree to these terms.</p>
 <h2>The service</h2>
-<p>CTCfix calculates salary structures under India's Labour Codes and state rules, and drafts employment letters. The free calculator is open to everyone. Paid plans unlock letter drafting and downloads for the period you pay for.</p>
+<p>CTCfix calculates salary structures under India's Labour Codes and state rules, drafts employment letters, checks salary slips and job offers, and shows peer salary figures. The free calculator is open to everyone. Paid plans unlock letter drafting and downloads for the period you pay for.</p>
 <h2>Not legal or tax advice</h2>
-<p>CTCfix is a calculation and drafting tool. It does not give legal, tax or payroll advice. Statutory rates change, and rules such as minimum wages vary by schedule and zone. You are responsible for reviewing every figure and letter before you use it, and for your compliance with applicable law.</p>
+<p>CTCfix is a calculation and drafting tool. It does not give legal, tax, payroll or career advice. Peer figures are averages from published reports and anonymous user submissions. They are a reference point, not a promise of what any employer pays. Statutory rates change, and rules such as minimum wages vary by schedule and zone. You are responsible for reviewing every figure and letter before you use it, and for your compliance with applicable law.</p>
 <h2>Plans and payment</h2>
-<ul><li>SME plan: ₹399 per month, for one business's own employees.</li><li>CA and consultants plan: ₹2,299 per month, for use across client companies.</li><li>Each payment gives access until the end of the following calendar month. Plans do not renew automatically.</li><li>Access codes are for the paying business only and must not be shared publicly.</li></ul>
+<ul><li>SME plan: ₹399 per month, for one business's own employees.</li><li>CA and consultants plan: ₹2,299 per month, for use across client companies.</li><li>Compare my offer: ₹199 one-time, for one person's own use.</li><li>Each payment gives access until the end of the following calendar month. Plans do not renew automatically.</li><li>Access codes are for the paying business only and must not be shared publicly.</li></ul>
 <h2>Acceptable use</h2>
 <p>Do not misuse the service, attempt to bypass access controls, or use it to produce misleading documents. We may suspend access that breaks these terms.</p>
 <h2>Your content</h2>
@@ -127,7 +137,7 @@ privacy = f"""<div class="prose">
 <h2>What stays in your browser</h2>
 <p>Salary figures you enter in the calculator are processed in your browser and are not sent to us. Company details you type on the Offer letters tab and your access code are saved in your own browser so you don't retype them. You can clear them by clearing your browser's site data.</p>
 <h2>What we process</h2>
-<ul><li><b>Letter drafting.</b> When you draft a letter, the company, employee and terms details you entered are sent to our server and to Anthropic's Claude API to write the letter text. Salary figures are not sent. We do not store the letter or these details after the response is returned.</li><li><b>Payments.</b> When you pay by UPI and message us on WhatsApp, we receive your name, phone number, payment reference and business name. We keep these to issue access codes, provide support and meet tax record-keeping rules.</li><li><b>Hosting logs.</b> Our host, Vercel, keeps standard technical logs such as IP address and request times for security.</li></ul>
+<ul><li><b>Salary slip and offer checks.</b> The document you upload is sent to our server and to Anthropic's Claude API to read the numbers. We do not store the document or the numbers. The checks run in your browser.</li><li><b>Shared offers.</b> If you tick the box to share, we store only your industry, function, years of experience, city, CTC, basic % and fixed %. No name, company or document. You can ask us to delete it.</li><li><b>Letter drafting.</b> When you draft a letter, the company, employee and terms details you entered are sent to our server and to Anthropic's Claude API to write the letter text. Salary figures are not sent. We do not store the letter or these details after the response is returned.</li><li><b>Payments.</b> When you pay by UPI and message us on WhatsApp, we receive your name, phone number, payment reference and business name. We keep these to issue access codes, provide support and meet tax record-keeping rules.</li><li><b>Hosting logs.</b> Our host, Vercel, keeps standard technical logs such as IP address and request times for security.</li></ul>
 <h2>What we don't do</h2>
 <p>We do not sell your data or use it for advertising.</p>
 <h2>Your rights</h2>
@@ -140,7 +150,7 @@ refund = f"""<div class="prose">
 <h1>Refunds and cancellation</h1>
 <p class="updated">Last updated {UPDATED}</p>
 <h2>7-day refund on your first payment</h2>
-<p>If CTCfix isn't right for you, ask for a refund within 7 days of your first payment and we'll refund it in full. No questions asked.</p>
+<p>If CTCfix isn't right for you, ask for a refund within 7 days of your first payment and we'll refund it in full. No questions asked. This includes the ₹199 Compare my offer plan.</p>
 <h2>Cancelling</h2>
 <p>Plans do not renew automatically, so there is nothing to cancel. If you don't pay for the next period, access ends when your current code expires. Renewal payments after the first are not refundable for a partly used period.</p>
 <h2>How refunds are paid</h2>

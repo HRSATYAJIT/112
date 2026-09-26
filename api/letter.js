@@ -89,6 +89,7 @@ export default async function handler(req, res) {
   if (typeof body === "string") { try { body = JSON.parse(body); } catch { body = null; } }
   const access = verifyCode(process.env.CODE_SECRET, req.headers?.["x-access-code"]);
   if (!access.valid) return res.status(402).json({ error: access.reason, locked: true });
+  if (access.plan === "Individual") return res.status(402).json({ error: "Offer letters need an SME or CA plan. Your individual plan covers offer comparison.", locked: true });
 
   const errors = validate(body);
   if (errors.length) return res.status(400).json({ error: "Some details are missing or invalid", details: errors });

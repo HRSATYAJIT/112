@@ -16,18 +16,20 @@
 .code{font:600 20px/1.3 var(--mono);letter-spacing:.02em;word-break:break-all;background:var(--accent-soft);padding:12px;border-radius:9px}
 .msg{white-space:pre-wrap;font-size:13.5px;background:var(--surface-2);padding:12px;border-radius:9px;margin:0}
 .row{display:flex;flex-wrap:wrap;gap:8px}
+.small{padding:8px 12px;font-size:13px}
 .err{color:var(--warn);background:var(--warn-soft);padding:10px 12px;border-radius:8px;margin:0;font-size:13.5px}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header class="nav"><a class="logo" href="index.html"><span class="mark">CF</span><b>CTCfix</b></a><span class="label">Admin · issue access codes</span></header>
+<header class="nav"><a class="logo" href="index.html"><span class="mark">CF</span><b>CTCfix</b></a><span class="label">Admin</span></header>
 <form class="card box" id="f" autocomplete="off">
   <label class="f">Admin key<input id="key" type="password" required></label>
-  <label class="f">Customer business name<input id="cust" required placeholder="e.g. Kaveri Foods Pvt Ltd"></label>
+  <h2 style="margin:0">Issue an access code</h2>
+  <label class="f">Customer name (person or business)<input id="cust" required placeholder="e.g. Kaveri Foods Pvt Ltd"></label>
   <label class="f">Customer WhatsApp number (10 digits)<input id="phone" inputmode="numeric" placeholder="98xxxxxxxx"></label>
   <div class="two">
-    <label class="f">Plan<select id="plan"><option value="S">SME · ₹399/month</option><option value="C">CA · ₹2,299/month</option></select></label>
+    <label class="f">Plan<select id="plan"><option value="I">Individual · ₹199 one-time</option><option value="S">SME · ₹399/month</option><option value="C">CA · ₹2,299/month</option></select></label>
     <label class="f">Months paid<select id="months"><option>1</option><option>2</option><option>3</option><option>6</option><option>12</option></select></label>
   </div>
   <button class="btn" type="submit" id="go">Issue code</button>
@@ -41,6 +43,25 @@
     <p style="margin:0;font-size:13px;color:var(--muted)">Log the payment and code in your records sheet. Codes can't be looked up later.</p>
   </div>
 </form>
+
+<section class="card box" id="peers-box" style="margin-top:22px;max-width:760px">
+  <h2 style="margin:0">Peer list</h2>
+  <p style="margin:0;font-size:13.5px;color:var(--muted)">Approve anonymised offers people shared, or add a verified row from your own research. Uses the admin key above.</p>
+  <button type="button" class="btn ghost" id="p-load">Load shared offers</button>
+  <p class="err" id="p-err" hidden></p>
+  <div id="p-list"></div>
+  <h3 style="margin:10px 0 0;font:600 15px var(--sans)">Add a verified row</h3>
+  <div class="two">
+    <label class="f">Industry<select id="a-ind"><option>FMCG</option><option>E-commerce</option><option>BFSI</option></select></label>
+    <label class="f">Function<input id="a-fn" placeholder="e.g. Finance"></label>
+    <label class="f">Years of experience<input id="a-yrs" inputmode="numeric" placeholder="8"></label>
+    <label class="f">City<select id="a-city"><option>Bengaluru</option><option>Mumbai</option><option>Delhi-NCR</option><option>Hyderabad</option><option>Chennai</option><option>Pune</option><option>Kolkata</option><option>Ahmedabad</option><option>Other</option></select></label>
+    <label class="f">Annual CTC (₹ lakh)<input id="a-ctc" inputmode="decimal" placeholder="18.5"></label>
+    <label class="f">Source shown to users<input id="a-src" placeholder="CTCfix research"></label>
+  </div>
+  <button type="button" class="btn" id="a-go">Add row</button>
+  <p id="a-msg" style="margin:0;font-size:13.5px"></p>
+</section>
 </div>
 <script>
 const $ = (id) => document.getElementById(id);
@@ -52,12 +73,43 @@ $("f").addEventListener("submit", async (e) => {
     const d = await r.json();
     if (!r.ok) throw new Error(d.error || "Could not issue a code.");
     const until = new Date(d.validUntil + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
-    const msg = `Hi, thank you for choosing CTCfix (${d.plan} plan) for ${$("cust").value}.\n\nYour access code: ${d.code}\nValid until: ${until}\n\nOpen ${location.origin}/#letter, paste the code in "Access code" and tap Unlock.\n\nFor help, reply here.`;
+    const where = d.plan === "Individual"
+      ? `Open ${location.origin}/me#offer, check your offer, then paste the code under "Compare my offer" and tap Compare.`
+      : `Open ${location.origin}/business#letter, paste the code in "Access code" and tap Unlock.`;
+    const msg = `Hi, thank you for choosing CTCfix (${d.plan} plan)${d.plan === "Individual" ? "" : " for " + $("cust").value}.\n\nYour access code: ${d.code}\nValid until: ${until}\n\n${where}\n\nFor help, reply here.`;
     $("code").textContent = d.code; $("msg").textContent = msg; $("out").hidden = false;
     const digits = $("phone").value.replace(/\D/g, "").slice(-10);
     $("wa").href = `https://wa.me/${digits.length === 10 ? "91" + digits : ""}?text=${encodeURIComponent(msg)}`;
   } catch (err) { $("err").textContent = err.message; $("err").hidden = false; }
   finally { $("go").disabled = false; }
+});
+async function peersApi(body){
+  const r = await fetch("/api/admin-peers", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ adminKey: $("key").value, ...body }) });
+  const d = await r.json().catch(() => ({})); if (!r.ok) throw new Error(d.error || "Request failed."); return d;
+}
+const escA = (x) => String(x ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+async function loadPeers(){
+  $("p-err").hidden = true;
+  try {
+    const d = await peersApi({ action: "list" });
+    const row = (r, pending) => `<div style="display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:14px">
+      <span><b>${escA(r.industry)}</b> · ${escA(r.function)} · ${r.years} yrs · ${escA(r.city)} · <b>₹${r.ctcLakh} L</b>${r.basicPct ? " · basic " + r.basicPct + "%" : ""}${r.fixedPct ? " · fixed " + r.fixedPct + "%" : ""} <span style="color:var(--muted)">${escA(r.kind === "user" ? "shared" : r.source && r.source.name)}</span></span>
+      ${pending ? `<button class="btn small" data-a="approve" data-id="${r.id}">Approve</button>` : ""}<button class="btn ghost small" data-a="reject" data-id="${r.id}">${pending ? "Reject" : "Remove"}</button></div>`;
+    $("p-list").innerHTML = `<p style="margin:8px 0 0"><b>Waiting for review (${d.pending.length})</b></p>` + (d.pending.map((r) => row(r, true)).join("") || `<p style="color:var(--muted);margin:4px 0">Nothing waiting.</p>`)
+      + `<p style="margin:14px 0 0"><b>Live (${d.approved.length})</b></p>` + (d.approved.map((r) => row(r, false)).join("") || `<p style="color:var(--muted);margin:4px 0">None yet.</p>`);
+  } catch (e) { $("p-err").textContent = e.message; $("p-err").hidden = false; }
+}
+$("p-load").addEventListener("click", loadPeers);
+$("p-list").addEventListener("click", async (e) => {
+  const b = e.target.closest("button[data-a]"); if (!b) return; b.disabled = true;
+  try { await peersApi({ action: b.dataset.a, id: b.dataset.id }); await loadPeers(); } catch (err) { $("p-err").textContent = err.message; $("p-err").hidden = false; }
+});
+$("a-go").addEventListener("click", async () => {
+  $("a-msg").textContent = "";
+  try {
+    await peersApi({ action: "add", row: { industry: $("a-ind").value, function: $("a-fn").value, years: +$("a-yrs").value, city: $("a-city").value, ctcLakh: +$("a-ctc").value, sourceName: $("a-src").value } });
+    $("a-msg").textContent = "Added. It's live on the peer list."; ["a-fn", "a-yrs", "a-ctc"].forEach((id) => ($(id).value = "")); loadPeers();
+  } catch (e) { $("a-msg").textContent = e.message; }
 });
 $("copy").addEventListener("click", async () => {
   try { await navigator.clipboard.writeText($("msg").textContent); $("copy").textContent = "Copied"; }

@@ -9,6 +9,6 @@
   },
   "scripts": {
     "dev": "node scripts/dev-server.js",
-    "test": "node scripts/test-engine.js && node scripts/test-letter.js && node scripts/test-codes.js"
+    "test": "node scripts/test-engine.js && node scripts/test-letter.js && node scripts/test-codes.js && node scripts/test-individual.js"
   }
 }
